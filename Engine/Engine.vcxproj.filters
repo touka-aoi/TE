@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="wellknown">
+      <UniqueIdentifier>{cd965fcf-59ea-4d6f-9e1b-20758dd96ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processing">
+      <UniqueIdentifier>{e29dab03-f391-4535-93fe-bfc23fbd0538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostPone">
+      <UniqueIdentifier>{59165001-b85e-42de-8fbc-4508d8c885eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wellknown\Core">
+      <UniqueIdentifier>{75086468-e9dd-4d6d-b816-9699c8ecd97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wellknown\Engine">
+      <UniqueIdentifier>{c412e4da-8e7f-4e9d-a099-c37beab1157c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wellknown\Windows">
+      <UniqueIdentifier>{fa4c808d-f5ad-4a79-848d-b1ca9a4f52dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{496a19c3-bdc7-48f3-890b-ffceb2dd4f03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Header Files">
+      <UniqueIdentifier>{fe8e50bd-c904-4ec9-bc0f-7f2357b0f6e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui\Source Files">
+      <UniqueIdentifier>{eb3442af-4f3d-4982-9580-3ac314cef9a9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommandQueue.h">
+      <Filter>PostPone</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>PostPone</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>PostPone</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>wellknown\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Eventes.h">
+      <Filter>wellknown\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>wellknown\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>wellknown\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>wellknown\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>wellknown\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>wellknown\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>wellknown\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>imgui\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Engine_Simulation.cpp">
+      <Filter>PostPone</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine_WindowEvents.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_Render.cpp">
+      <Filter>PostPone</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandQueue.cpp">
+      <Filter>PostPone</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>PostPone</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_Main.cpp">
+      <Filter>wellknown\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>wellknown\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>wellknown\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>wellknown\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>wellknown\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Multithreading.cpp">
+      <Filter>wellknown\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Multithreading.h">
+      <Filter>wellknown\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>wellknown\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>wellknown\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_EventHandlers.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
