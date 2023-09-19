@@ -1,4 +1,4 @@
-﻿#include "Engine.h"
+#include "Engine.h"
 #include "Input.h"
 
 #include <windowsx.h>
@@ -8,7 +8,7 @@ constexpr int MIN_WINDOW_SIZE = 128;
 
 #define LOG_WINDOW_MESSAGE_EVENTS 0
 #define LOG_RAW_INPUT             0
-#define LOG_CALLBACKS             0
+#define LOG_CALLBACKS             1
 // static void LogWndMsg(UINT msg, HWND hwnd);
 
 // =================================================================================================
@@ -183,7 +183,7 @@ void Engine::OnWindowActivate(HWND hwnd)
 	//if (IsWindowRegistered(hwnd))
 	{
 #if LOG_CALLBACKS
-		Log::Warning("OnWindowActivate<%0x, %s>", hWnd, GetWindowName(hWnd).c_str());
+		Log::Warning("OnWindowActivate<%0x, %s>", hwnd, GetWindowName(hwnd).c_str());
 #endif
 	}
 }
@@ -193,7 +193,7 @@ void Engine::OnWindowDeactivate(HWND hwnd)
 	//if (IsWindowRegistered(hwnd))
 	{ 
 #if LOG_CALLBACKS
-		Log::Warning("OnWindowDeactivate<%0x, %s> ", hWnd, GetWindowName(hWnd).c_str());
+		Log::Warning("OnWindowDeactivate<%0x, %s> ", hwnd, GetWindowName(hwnd).c_str());
 #endif
 	}
 }
@@ -201,7 +201,7 @@ void Engine::OnWindowDeactivate(HWND hwnd)
 void Engine::OnWindowMove(HWND hwnd, int xPos, int yPos)
 {
 #if LOG_CALLBACKS
-	Log::Warning("OnWindowMove<%0x, %s>: (%d, %d)", hwnd_, GetWindowName(hwnd_).c_str(), x, y);
+	Log::Warning("OnWindowMove<%0x, %s>: (%d, %d)", hwnd, GetWindowName(hwnd).c_str(), xPos, yPos);
 #endif
 }
 
@@ -216,7 +216,7 @@ void Engine::OnWindowMinimize(HWND hwnd)
 void Engine::OnWindowCreate(HWND hwnd)
 {
 #if LOG_CALLBACKS
-	Log::Info("OnWindowCreate<%0x, %s> ", hWnd, GetWindowName(hWnd).c_str());
+	Log::Info("OnWindowCreate<%0x, %s> ", hwnd, GetWindowName(hwnd).c_str());
 #endif
 }
 

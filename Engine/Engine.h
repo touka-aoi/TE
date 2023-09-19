@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Window.h"
 #include "Log.h"
@@ -71,8 +71,12 @@ public:
 
 
     //---------------------------------------------------------
-    /*void                       SetWindowName(HWND hwnd, const std::string& name);
-    void                       SetWindowName(const std::unique_ptr<Window>& pWin, const std::string& name);*/
+    void                       SetWindowName(HWND hwnd, const std::string& name);
+    void                       SetWindowName(const std::unique_ptr<Window>& pWin, const std::string& name);
+    const std::string& GetWindowName(HWND hwnd) const;
+    // overload
+    inline const std::string& GetWindowName(const std::unique_ptr<Window>& pWin) const { return GetWindowName(pWin->GetHWND()); }
+    inline const std::string& GetWindowName(const Window* pWin) const { return GetWindowName(pWin->GetHWND()); }
 
 private:
 
@@ -112,6 +116,10 @@ private:
     // timer / profiler
     // Timer                           mTimer;
     // Timer                           mTimerRender;
+
+    using WindowNameLookup_t = std::unordered_map<HWND, std::string>;
+
+    WindowNameLookup_t              mWinNameLookup;
 
 
 private:

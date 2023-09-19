@@ -1,4 +1,4 @@
-﻿#include "Engine.h"
+#include "Engine.h"
 
 
 #ifdef _DEBUG
@@ -76,7 +76,7 @@ void Engine::InitializeWindows(const FStartupParameters& Params)
 		desc.preferredDisplay = settings.PreferredDisplay;
 		desc.iShowCmd = Params.iCmdShow;
 		desc.windowName = WindowName;
-		// desc.pfnRegisterWindowName = &Engine::SetWindowName;
+		desc.pfnRegisterWindowName = &Engine::SetWindowName;
 		desc.pRegistrar = this;
 		pWin.reset(new Window(settings.Title, desc));
 		pWin->pOwner->OnWindowCreate(pWin->GetHWND());
