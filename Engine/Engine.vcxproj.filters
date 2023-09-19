@@ -102,11 +102,9 @@
     <None Include="Engine_Simulation.cpp">
       <Filter>PostPone</Filter>
     </None>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine_WindowEvents.cpp">
-      <Filter>Processing</Filter>
-    </ClCompile>
     <ClCompile Include="Engine_Render.cpp">
       <Filter>PostPone</Filter>
     </ClCompile>
@@ -163,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>imgui\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_WindowEvents.cpp">
+      <Filter>wellknown\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
