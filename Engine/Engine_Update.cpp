@@ -15,3 +15,9 @@ const std::string& Engine::GetWindowName(HWND hwnd) const
 #endif
     return mWinNameLookup.at(hwnd);
 }
+
+bool Engine::IsWindowRegistered(HWND hwnd) const
+{
+    auto it = mWinNameLookup.find(hwnd);
+    return it != mWinNameLookup.end();
+}

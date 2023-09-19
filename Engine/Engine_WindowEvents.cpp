@@ -180,7 +180,7 @@ void Engine::OnToggleFullscreen(HWND hwnd)
 
 void Engine::OnWindowActivate(HWND hwnd)
 {
-	//if (IsWindowRegistered(hwnd))
+	if (IsWindowRegistered(hwnd))
 	{
 #if LOG_CALLBACKS
 		Log::Warning("OnWindowActivate<%0x, %s>", hwnd, GetWindowName(hwnd).c_str());
@@ -190,7 +190,7 @@ void Engine::OnWindowActivate(HWND hwnd)
 
 void Engine::OnWindowDeactivate(HWND hwnd)
 {
-	//if (IsWindowRegistered(hwnd))
+	if (IsWindowRegistered(hwnd))
 	{ 
 #if LOG_CALLBACKS
 		Log::Warning("OnWindowDeactivate<%0x, %s> ", hwnd, GetWindowName(hwnd).c_str());
