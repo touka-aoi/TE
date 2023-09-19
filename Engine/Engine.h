@@ -62,12 +62,12 @@ public:
     // ---------------------------------------------------------
     // Update Thread
     // ---------------------------------------------------------
-    /*void  UpdateThread_Main();
+    void  UpdateThread_Main();
     void  UpdateThread_Inititalize();
     void  UpdateThread_Tick(const float dt);
     void  UpdateThread_Exit();
     float UpdateThread_WaitForRenderThread();
-    void  UpdateThread_SignalRenderThread();*/
+    void  UpdateThread_SignalRenderThread();
 
 
     //---------------------------------------------------------
@@ -141,12 +141,16 @@ private:
     // Events
     //
     void                            MainThread_HandleEvents();
+    void                            UpdateThread_HandleEvents();
+    // void                            RenderThread_HandleEvents();
     void                            HandleWindowTransitions(std::unique_ptr<Window>& pWin, const FWindowSettings& settings);
     void                            SetMouseCaptureForWindow(HWND hwnd, bool bCaptureMouse, bool bReleaseAtCapturedPosition);
+    void                            UpdateThread_HandleWindowResizeEvent(const std::shared_ptr<IEvent>& pEvent);
 
     //
     // HELPER
     //
+    bool                            IsWindowRegistered(HWND hwnd) const;
     std::unique_ptr<Window>& GetWindow(HWND hwnd);
     const std::unique_ptr<Window>& GetWindow(HWND hwnd) const;
     const FWindowSettings& GetWindowSettings(HWND hwnd) const;
