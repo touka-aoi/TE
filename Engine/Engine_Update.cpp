@@ -31,13 +31,13 @@ void Engine::UpdateThread_Main()
 
 void Engine::UpdateThread_Inititalize()
 {
-    InitializeUI(mpWinMain->GetHWND());
+    // InitializeUI(mpWinMain->GetHWND());
 
     mTimer.Reset();
     mTimer.Start();
 }
 
-void Engine::UpdateThread_Tick()
+void Engine::UpdateThread_Tick(const float dt)
 {
     float dt_RenderWaitTime = 0.0f;
 
@@ -56,7 +56,51 @@ void Engine::UpdateThread_Tick()
 
 void Engine::UpdateThread_Exit()
 {
-    ExitUI();
+    // ExitUI();
+}
+
+void Engine::UpdateThread_PreUpdate()
+{
+    // TODO : Windows PIX
+
+    // const int NUM_BACK_BUFFERS = mRenderer.GetSwapChainBackBufferCount(mpWinMain->GetHWND());
+
+    // TODO : Scene Update
+}
+
+/**
+ * @fn
+ * アプリケーションの状態を管理する関数
+ */
+void Engine::UpdateThread_UpdateAppState(const float dt)
+{
+    // TODO ; Windows PIX
+
+    switch (mAppState)
+    {
+    case EAppState::INITIALIZING:
+        mAppState = EAppState::LOADING;
+        break;
+    case EAppState::LOADING:
+        mAppState = EAppState::SIMULATING;
+        break;
+    case EAppState::SIMULATING:
+        UpdateThread_UpdateScene_MainWnd(dt);
+        UpdateThread_UpdateScene_DebugWnd(dt);
+        break;
+    }
+}
+
+void Engine::UpdateThread_PostUpdate()
+{
+    // TODO : Windows PIX
+
+    // 各々のWindowハンドルを取得、InputのUpdateを行う
+    for (auto it = mInputStates.begin(); it != mInputStates.end(); ++it)
+    {
+        const HWND& hwnd = it->first;
+        mInputStates.at(hwnd).PostUpdate();
+    }
 }
 
 void Engine::SetWindowName(HWND hwnd, const std::string& name) { mWinNameLookup[hwnd] = name; }

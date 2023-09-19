@@ -6,7 +6,19 @@
 #include "Platform.h"
 #include "Multithreading.h"
 
+#include "EngineUI.h"
+
 #include <memory>
+
+enum EAppState
+{
+    INITIALIZING = 0,
+    LOADING,
+    SIMULATING,
+    UNLOADING,
+    EXITING,
+    NUM_APP_STATES
+};
 
 class Engine : public IWindowOwner
 {
@@ -69,6 +81,23 @@ public:
     float UpdateThread_WaitForRenderThread();
     void  UpdateThread_SignalRenderThread();
 
+    // PreUpdate()
+    // - Updates input state reading from Main Thread's input queue
+    void UpdateThread_PreUpdate();
+
+    // Update()
+    // - Updates program state (init/load/sim/unload/exit)
+    // - Starts loading tasks
+    // - Animates loading screen
+    // - Updates scene state
+    void UpdateThread_UpdateAppState(const float dt);
+    void UpdateThread_UpdateScene_MainWnd(const float dt);
+    void UpdateThread_UpdateScene_DebugWnd(const float dt);
+
+    // PostUpdate()
+    // - Computes visibility per FSceneView
+    void UpdateThread_PostUpdate();
+
 
     //---------------------------------------------------------
     void                       SetWindowName(HWND hwnd, const std::string& name);
@@ -100,6 +129,9 @@ private:
     EventQueue_t                    mEventQueue_WinToE_Renderer;
     EventQueue_t                    mEventQueue_WinToE_Update;
 
+    // state
+    EAppState                       mAppState;
+
     // threads
     /*std::thread                     mSimulationThread;
     ThreadPool                      mWorkers_Simulation;
@@ -111,13 +143,13 @@ private:
     std::atomic<bool>               mbStopAllThreads;
 
     // ui
-    ImGuiContext* mpImGuiContext;
+    ImGuiContext*                   mpImGuiContext;
 
     // system & settings
     FEngineSettings                 mSettings;
 
     // timer / profiler
-     Timer                           mTimer;
+    Timer                           mTimer;
      // Timer                           mTimerRender;
 
     using WindowNameLookup_t = std::unordered_map<HWND, std::string>;
