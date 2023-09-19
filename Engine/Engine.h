@@ -108,14 +108,17 @@ private:
     ThreadPool                      mWorkers_TextureLoading;*/
 
     // sync
-    //std::atomic<bool>               mbStopAllThreads;
+    std::atomic<bool>               mbStopAllThreads;
+
+    // ui
+    ImGuiContext* mpImGuiContext;
 
     // system & settings
     FEngineSettings                 mSettings;
 
     // timer / profiler
-    // Timer                           mTimer;
-    // Timer                           mTimerRender;
+     Timer                           mTimer;
+     // Timer                           mTimerRender;
 
     using WindowNameLookup_t = std::unordered_map<HWND, std::string>;
 
@@ -129,7 +132,7 @@ private:
     // void                            InitializeHDRProfiles();
     // void                            InitializeEnvironmentMaps();
     // void                            InitializeScenes();
-    // void                            InitializeUI(HWND hwnd);
+     void                            InitializeUI(HWND hwnd);
     // void                            InitializeEngineThreads();
 
     void                            RegisterWindowForInput(const std::unique_ptr<Window>& pWnd);
