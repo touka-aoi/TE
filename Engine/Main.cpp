@@ -10,6 +10,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdSh
 	FStartupParameters StartupParameters{};
 	StartupParameters.hExeInstance = hInst; // アプリケーションハンドル 
 	StartupParameters.iCmdShow = iCmdShow; // ウィンドウ表示状態
+	strcpy_s(StartupParameters.EngineSettings.WndMain.Title, sizeof(StartupParameters.EngineSettings.WndMain.Title), "Main WIndow");
+	strcpy_s(StartupParameters.EngineSettings.WndDebug.Title, sizeof(StartupParameters.EngineSettings.WndDebug.Title), "Debug WIndow");
 
 	// セットアップのパラメータの設定 // 
 
