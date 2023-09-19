@@ -7,16 +7,16 @@
 
 void Engine::InitializeUI(HWND hwnd)
 {
-    mpImGuiContext = ImGui::CreateContext();
-    ImGui::SetCurrentContext(mpImGuiContext);
+    //mpImGuiContext = ImGui::CreateContext();
+    //ImGui::SetCurrentContext(mpImGuiContext);
 
-    ImGuiIO& io = ImGui::GetIO();
-    io.IniFilename = nullptr;;
+    //ImGuiIO& io = ImGui::GetIO();
+    //io.IniFilename = nullptr;;
 
-    // Get UI Texture
-    unsigned char* pixels;
-    int width, height;
-    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+    //// Get UI Texture
+    //unsigned char* pixels;
+    //int width, height;
+    //io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
     
 }

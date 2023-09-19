@@ -147,6 +147,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Window.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Multithreading.h" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="TImer.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

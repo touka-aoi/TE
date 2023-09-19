@@ -85,8 +85,8 @@ void Engine::UpdateThread_UpdateAppState(const float dt)
         mAppState = EAppState::SIMULATING;
         break;
     case EAppState::SIMULATING:
-        UpdateThread_UpdateScene_MainWnd(dt);
-        UpdateThread_UpdateScene_DebugWnd(dt);
+        // UpdateThread_UpdateScene_MainWnd(dt);
+        // UpdateThread_UpdateScene_DebugWnd(dt);
         break;
     }
 }

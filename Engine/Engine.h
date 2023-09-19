@@ -8,7 +8,13 @@
 
 #include "EngineUI.h"
 
+#include "Timer.h"
+
 #include <memory>
+
+#include    "imgui_internal.h"
+#include    "imgui.h"
+
 
 enum EAppState
 {
@@ -78,8 +84,6 @@ public:
     void  UpdateThread_Inititalize();
     void  UpdateThread_Tick(const float dt);
     void  UpdateThread_Exit();
-    float UpdateThread_WaitForRenderThread();
-    void  UpdateThread_SignalRenderThread();
 
     // PreUpdate()
     // - Updates input state reading from Main Thread's input queue
@@ -91,8 +95,8 @@ public:
     // - Animates loading screen
     // - Updates scene state
     void UpdateThread_UpdateAppState(const float dt);
-    void UpdateThread_UpdateScene_MainWnd(const float dt);
-    void UpdateThread_UpdateScene_DebugWnd(const float dt);
+    // void UpdateThread_UpdateScene_MainWnd(const float dt);
+    // void UpdateThread_UpdateScene_DebugWnd(const float dt);
 
     // PostUpdate()
     // - Computes visibility per FSceneView
