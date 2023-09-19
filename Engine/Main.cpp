@@ -1,4 +1,4 @@
-#include <Windows.h>	
+ï»¿#include <Windows.h>	
 
 #include "WIndow.h"
 #include "Platform.h"
@@ -8,15 +8,15 @@
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdShow)
 {
 	FStartupParameters StartupParameters{};
-	StartupParameters.hExeInstance = hInst; // ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹ 
-	StartupParameters.iCmdShow = iCmdShow; // ƒEƒBƒ“ƒhƒE•\¦ó‘Ô
+	StartupParameters.hExeInstance = hInst; // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ« 
+	StartupParameters.iCmdShow = iCmdShow; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤ºçŠ¶æ…‹
 	strcpy_s(StartupParameters.EngineSettings.WndMain.Title, sizeof(StartupParameters.EngineSettings.WndMain.Title), "Main WIndow");
 	strcpy_s(StartupParameters.EngineSettings.WndDebug.Title, sizeof(StartupParameters.EngineSettings.WndDebug.Title), "Debug WIndow");
 
-	// ƒZƒbƒgƒAƒbƒv‚Ìƒpƒ‰ƒ[ƒ^‚Ìİ’è // 
+	// ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š // 
 
 	{
-		// ƒGƒ“ƒWƒ“‚Ì‹N“®
+		// ã‚¨ãƒ³ã‚¸ãƒ³ã®èµ·å‹•
 		Engine Engine{};
 		Engine.Initialize(StartupParameters);
 
@@ -36,11 +36,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdSh
 					break;
 				}
 			}
-			// ƒGƒ“ƒWƒ“‚ÌXV
+			// ã‚¨ãƒ³ã‚¸ãƒ³ã®æ›´æ–°
 			Engine.MainThread_Tick();
 		}
 
-		// ƒGƒ“ƒWƒ“‚ÌI—¹
+		// ã‚¨ãƒ³ã‚¸ãƒ³ã®çµ‚äº†
 		Engine.Destroy();
 	}
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <Windows.h>
@@ -124,11 +124,11 @@ private:
 	std::unique_ptr<WindowClass> windowClass_;
 	HWND hwnd_ = 0;
 	RECT rect_;
-	bool isClosed_ = false; // ƒNƒ[ƒYƒtƒ‰ƒO
-	int width_ = -1, height_ = -1; // ƒEƒBƒ“ƒhƒEƒTƒCƒY 
-	bool isFullscreen_ = false; // ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒtƒ‰ƒO
-	UINT windowStyle_; // ƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-	int FSwidth_ = -1, FSheight_ = -1; // ƒtƒ‹ƒXƒNƒŠ[ƒ“‚ÌƒTƒCƒY
+	bool isClosed_ = false; // ã‚¯ãƒ­ãƒ¼ã‚ºãƒ•ãƒ©ã‚°
+	int width_ = -1, height_ = -1; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º 
+	bool isFullscreen_ = false; // ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒ•ãƒ©ã‚°
+	UINT windowStyle_; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+	int FSwidth_ = -1, FSheight_ = -1; // ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³æ™‚ã®ã‚µã‚¤ã‚º
 	bool isMouseCaptured_ = false;
 	bool isOnHDRCapableDisplay_ = false;
 };

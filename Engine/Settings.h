@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìİ’è
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®š
 
 enum EDisplayMode
 {
@@ -24,9 +24,9 @@ enum EReflections
 
 struct FGraphicsSettings
 {
-	bool bVsync{ false }; // ‚’¼“¯Šú
-	bool bUseTripleBuffering{false}; // ƒgƒŠƒvƒ‹ƒoƒbƒtƒ@ƒŠƒ“ƒO
-	bool bAntiAliasing{ false }; // ƒAƒ“ƒ`ƒGƒCƒŠƒAƒVƒ“ƒO
+	bool bVsync{ false }; // å‚ç›´åŒæœŸ
+	bool bUseTripleBuffering{false}; // ãƒˆãƒªãƒ—ãƒ«ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°
+	bool bAntiAliasing{ false }; // ã‚¢ãƒ³ãƒã‚¨ã‚¤ãƒªã‚¢ã‚·ãƒ³ã‚°
 	EReflections Reflections{ EReflections::REFLECTIONS_OFF };
 
 	float RenderScale{ 1.0f }; // What is this ?
@@ -39,28 +39,28 @@ struct FWindowSettings
 	int Width{ -1 };
 	int Height{ -1 };
 	EDisplayMode DisplayMode  {EDisplayMode::WINDOWED};
-	unsigned PreferredDisplay{ 0 }; // ƒfƒBƒXƒvƒŒƒCİ’è
-	char Title[64]{ "" }; // ƒEƒBƒ“ƒhƒEƒ^ƒCƒgƒ‹
+	unsigned PreferredDisplay{ 0 }; // ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤è¨­å®š
+	char Title[64]{ "" }; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«
 	bool bEnableHDR{ false }; // HDR 
 
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“‚ª—LŒø‚©‚Ç‚¤‚©‚ğŠm”F
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãŒæœ‰åŠ¹ã‹ã©ã†ã‹ã‚’ç¢ºèª
 	inline bool IsDisplayModeFullscreen() const { return DisplayMode == EDisplayMode::EXCLUSIVE_FULLSCREEN || DisplayMode == EDisplayMode::BORDERLESS_FULLSCREEN; }
 };
 
 struct FEngineSettings
 {
-	// ƒOƒ‰ƒtƒBƒbƒNİ’è
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯è¨­å®š
 	FGraphicsSettings gfx;
 
-	// ƒEƒBƒ“ƒhƒEİ’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¨­å®š
 	FWindowSettings WndMain;
 	FWindowSettings WndDebug;
 
-	// ƒfƒoƒbƒOƒEƒBƒ“ƒhƒE‚Ì•\¦
+	// ãƒ‡ãƒãƒƒã‚°ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¡¨ç¤º
 	bool bShowDebugWindow{ false };
 
 	// What is this ?
-	bool bAutomatedTestRun{ false }; // ©“®ƒeƒXƒgÀs
+	bool bAutomatedTestRun{ false }; // è‡ªå‹•ãƒ†ã‚¹ãƒˆå®Ÿè¡Œ
 	int NumAutomatedTestFrames{ -1 };
 
 	// TODO :: Check this parameter

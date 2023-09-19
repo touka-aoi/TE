@@ -1,4 +1,4 @@
-////#include "Engine.h"
+ï»¿////#include "Engine.h"
 //
 //#include <d3d12.h>
 //#include <dxgi.h>
@@ -62,24 +62,24 @@
 //	const bool bExclusiveFullscreen = setting.DisplayMode == EDisplayMode::EXCLUSIVE_FULLSCREEN;
 //	if (bExclusiveFullscreen)
 //	{
-//		map[hwnd] = true; // ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ðtrue‚É•ÏX
+//		map[hwnd] = true; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’trueã«å¤‰æ›´
 //	}
 //	return bExclusiveFullscreen;
 //}
 //
 //
 ///**
-//* ŠÖ”‚ÌŠT—và–¾
-//* ƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ìƒ`ƒFƒbƒNAƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì‰Šú‰»AƒŠƒ\[ƒX‚Ìƒ[ƒh
-//* TODO : RenderPass‚Ì’Ç‰Á
+//* é–¢æ•°ã®æ¦‚è¦èª¬æ˜Ž
+//* ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®ãƒã‚§ãƒƒã‚¯ã€ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã®åˆæœŸåŒ–ã€ãƒªã‚½ãƒ¼ã‚¹ã®ãƒ­ãƒ¼ãƒ‰
+//* TODO : RenderPassã®è¿½åŠ 
 //*
-//* @param[in] paramA ‘æˆêˆø”‚Ìà–¾
-//* @param[out] paramB ‘æˆêˆø”‚Ìà–¾
-//* @return int –ß‚è’l‚Ìà–¾
+//* @param[in] paramA ç¬¬ä¸€å¼•æ•°ã®èª¬æ˜Ž
+//* @param[out] paramB ç¬¬ä¸€å¼•æ•°ã®èª¬æ˜Ž
+//* @return int æˆ»ã‚Šå€¤ã®èª¬æ˜Ž
 //*/
 //void Engine::RenderThread_Inititalize()
 //{
-//	// TODO : RenderPss‚Ì’Ç‰Á
+//	// TODO : RenderPssã®è¿½åŠ 
 //	//mRenderPasses = // manual render pass registration for now (early in dev)
 //	//{
 //	//	&mRenderPass_AO,
@@ -93,7 +93,7 @@
 //
 //	// Initialize swapchains for each rendering window
 //	// all windows use the same number of swapchains as the main window
-//	// ƒXƒƒbƒvƒ`ƒF[ƒ“‚Ì‰Šú‰»AŠeƒEƒBƒ“ƒhƒE‚ÍƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Æ“¯‚¶”‚ÌƒXƒƒbƒvƒ`ƒF[ƒ“‚ðŽ‚Â ( 2 or 3 )
+//	// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã®åˆæœŸåŒ–ã€å„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¯ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¨åŒã˜æ•°ã®ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã‚’æŒã¤ ( 2 or 3 )
 //	const int NUM_SWAPCHAIN_BUFFERS = mSettings.gfx.bUseTripleBuffering ? 3 : 2;
 //	{
 //		// const bool bIsContainingWindowOnHDRScreen = VQSystemInfo::FMonitorInfo::CheckHDRSupport(mpWinMain->GetHWND());
@@ -132,7 +132,7 @@
 //	//	pPass->Initialize(); // initialize the render pass
 //
 //	//	// collect its PSO load descriptors so we can dispatch PSO compilation workers
-//	// // .insert() ‚Å RenderPassPSOLoadDescs‚Ì––”ö‚É’Ç‰Á
+//	// // .insert() ã§ RenderPassPSOLoadDescsã®æœ«å°¾ã«è¿½åŠ 
 //	//	const auto vPassPSODescs = pPass->CollectPSOCreationParameters();
 //	//	RenderPassPSOLoadDescs.insert(RenderPassPSOLoadDescs.end()
 //	//		, std::make_move_iterator(vPassPSODescs.begin())

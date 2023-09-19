@@ -1,8 +1,8 @@
-#include "Engine.h"
+﻿#include "Engine.h"
 #include "Window.h"
 #include "SwapChain.h"
 
-// �E�B���h�E���f�B�X��̒��S�Ɉړ�������֐�
+// ウィンドウをディス例の中心に移動させる関数
 static RECT CenterScreen(const RECT& screenRect, const RECT& wndRect)
 {
     RECT centered = {};
@@ -20,8 +20,8 @@ static RECT CenterScreen(const RECT& screenRect, const RECT& wndRect)
     return centered;
 }
 
-// �ݒ肵���f�B�X�v���C���擾���Ă��̃f�B�X�v���C��RECT���擾����
-// ���̌�ACenterScreen��K�����ARECT��Ԃ�
+// 設定したディスプレイを取得してそのディスプレイのRECTを取得する
+// その後、CenterScreenを適応し、RECTを返す
 static RECT GetScreenRectOnPreferredDisplay(const RECT& preferredRect, int PreferredDisplayIndex, bool* pbMonitorFound)
 {
     // handle preferred display
@@ -36,46 +36,46 @@ static RECT GetScreenRectOnPreferredDisplay(const RECT& preferredRect, int Prefe
     // Default RECT
     RECT preferredScreenRect = { CW_USEDEFAULT , CW_USEDEFAULT , CW_USEDEFAULT , CW_USEDEFAULT };
 
-    // ���j�^�[�p�����[�^
+    // モニターパラメータ
     MonitorEnumCallbackParams p = {};
-    p.PreferredMonitorIndex = PreferredDisplayIndex; // �ݒ肵�����j�^�[�ԍ�
-    p.pRectOriginal = &preferredRect; // �ݒ�O��RECT
-    p.pRectNew = &preferredScreenRect; // �V�����ݒ肵��RECT
+    p.PreferredMonitorIndex = PreferredDisplayIndex; // 設定したモニター番号
+    p.pRectOriginal = &preferredRect; // 設定前のRECT
+    p.pRectNew = &preferredScreenRect; // 新しく設定したRECT
 
-    // �񋓂��ꂽ���j�^�[�̃C���f�b�N�X�ԍ�
+    // 列挙されたモニターのインデックス番号
     auto fnCallbackMonitorEnum = [](HMONITOR Arg1, HDC Arg2, LPRECT Arg3, LPARAM Arg4) -> BOOL
     {
         // return Flag
         BOOL b = TRUE;
-        // ���[�U�[�p�����[�^�̃L���X�g
+        // ユーザーパラメータのキャスト
         MonitorEnumCallbackParams* pParam = (MonitorEnumCallbackParams*)Arg4;
 
-        // ���j�^�[���̎擾
+        // モニター情報の取得
         MONITORINFOEXA monitorInfo = {};
         monitorInfo.cbSize = sizeof(MONITORINFOEXA);
         GetMonitorInfoA(Arg1, &monitorInfo);
 
         CHAR* test = monitorInfo.szDevice;
-        std::string monitorName(monitorInfo.szDevice); // ���j�^�[��  "///./DISPLAY1"
+        std::string monitorName(monitorInfo.szDevice); // モニター例  "///./DISPLAY1"
         monitorName = monitorName.substr(monitorName.size() - 1);
         std::string strMonitorIndex = monitorName.substr(monitorName.size() - 1); // strMonitorIndex is "1" for "///./DISPLAY1"
         const int monitorIndex = std::atoi(strMonitorIndex.c_str()) - 1;          // monitorIndex    is  0  for "///./DISPLAY1"
 
-        // ���j�^�[�C���f�b�N�X�̃`�F�b�N
+        // モニターインデックスのチェック
         if (monitorIndex == pParam->PreferredMonitorIndex)
         {
-            *pParam->pRectNew = *Arg3; // ���j�^�[��RECT��ݒ�
+            *pParam->pRectNew = *Arg3; // モニターのRECTを設定
         }
         if (monitorIndex == 0)
         {
-            pParam->RectDefault = *Arg3; // ���j�^�[�C���f�b�N�X��0�̏ꍇ�A�f�t�H���g�ɐݒ�
+            pParam->RectDefault = *Arg3; // モニターインデックスが0の場合、デフォルトに設定
         }
         return b;
     };
 
     EnumDisplayMonitors(NULL, NULL, fnCallbackMonitorEnum, (LPARAM)&p);
 
-    // RECT���f�t�H���g�ݒ�̏ꍇ�A������Ȃ������Ƃ���
+    // RECTがデフォルト設定の場合、見つからなかったとする
     const bool bPreferredDisplayNotFound =
         (preferredScreenRect.right == preferredScreenRect.left
             && preferredScreenRect.left == preferredScreenRect.top
@@ -87,37 +87,37 @@ static RECT GetScreenRectOnPreferredDisplay(const RECT& preferredRect, int Prefe
     return bPreferredDisplayNotFound ? p.RectDefault : CenterScreen(preferredScreenRect, preferredRect);
 }
 
-// �R���X�g���N�^
+// コンストラクタ
 Window::Window(const std::string& title, FWindowDesc& initParams)
     : IWindow(initParams.pWndOwner)
     , width_(initParams.width)
     , height_(initParams.height)
     , isFullscreen_(initParams.bFullscreen)
 {
-    // �E�B���h�E�X�^�C��
+    // ウィンドウスタイル
     UINT FlagWindowStyle = WS_OVERLAPPEDWINDOW;
 
-    // RECT�̉��ݒ�
+    // RECTの仮設定
     ::RECT rect;
     ::SetRect(&rect, 0, 0, width_, height_);
     ::AdjustWindowRect(&rect, FlagWindowStyle, FALSE);
 
-    // �e�n���h��
+    // 親ハンドル
     HWND hwnd_parent = NULL;
 
-    // �E�B���h�E�N���X�̍쐬�E�ݒ�
+    // ウィンドウクラスの作成・設定
     windowClass_.reset(new WindowClass("WindowClass", initParams.hInst, initParams.pfnWndProc));
 
-    // �f�B�X�v���C�̃t���O
+    // ディスプレイのフラグ
     bool bPreferredDisplayFound = false;
-    // �f�B�X�v���C�ɑ΂���RECT�̐ݒ�
+    // ディスプレイに対するRECTの設定
     RECT preferredScreenRect = GetScreenRectOnPreferredDisplay(rect, initParams.preferredDisplay, &bPreferredDisplayFound);
 
-    // �t���X�N���[�����̃E�B���h�E�T�C�Y��ݒ肷��
+    // フルスクリーン時のウィンドウサイズを設定する
     this->FSwidth_ = preferredScreenRect.right - preferredScreenRect.left;
     this->FSheight_ = preferredScreenRect.bottom - preferredScreenRect.top;
 
-    // �E�B���h�E�쐬
+    // ウィンドウ作成
     hwnd_ = ::CreateWindowExA(
         NULL,
         windowClass_->GetName().c_str(), // window class name
@@ -133,19 +133,19 @@ Window::Window(const std::string& title, FWindowDesc& initParams)
         NULL
     );
 
-    // �G���W���̃C���X�^���X�A�E�B���h�E�����擾����֐����ݒ肳��Ă����ꍇ�A�o�^����
+    // エンジンのインスタンス、ウィンドウ名を取得する関数が設定されていた場合、登録する
     if (initParams.pRegistrar && initParams.pfnRegisterWindowName)
     {
         (initParams.pRegistrar->*initParams.pfnRegisterWindowName)(hwnd_, initParams.windowName);
     }
 
-    // �E�B���h�E�X�^�C���̕ۑ�
+    // ウィンドウスタイルの保存
     windowStyle_ = FlagWindowStyle;
 
-    // �E�B���h�E�̕\��
+    // ウィンドウの表示
     ::ShowWindow(hwnd_, initParams.iShowCmd);
 
-    // �E�B���h�E�n���h���ɃE�B���h�E�N���X��ݒ�
+    // ウィンドウハンドルにウィンドウクラスを設定
     ::SetWindowLongPtr(hwnd_, GWLP_USERDATA, reinterpret_cast<LONG_PTR> (this));
 
     if (!bPreferredDisplayFound)
@@ -154,7 +154,7 @@ Window::Window(const std::string& title, FWindowDesc& initParams)
     }
 }
 
-// �f�R���X�g���N�^
+// デコンストラクタ
 IWindow::~IWindow() {}
 
 bool IWindow::IsClosed()     const { return IsClosedImpl(); }
@@ -186,58 +186,58 @@ void Window::Close()
 
 void Window::ToggleWindowedFullscreen(SwapChain* pSwapChain)
 {
-    // �t���X�N���[�����[�h�̐؂�ւ� ( �t���X�N���[���Ȃ�E�B���h�E�ցA�E�B���h�E�Ȃ�t���X�N���[���� )
+    // フルスクリーンモードの切り替え ( フルスクリーンならウィンドウへ、ウィンドウならフルスクリーンへ )
 
-    // �t���X�N���[�����I��
+    // フルスクリーンを終了
     if (isFullscreen_)
     {
-        // �V�����E�B���h�E�X�^�C���ɐݒ� ( WS_OVERLAPPEDWINDOW : �E�B���h�E���[�h)
+        // 新しいウィンドウスタイルに設定 ( WS_OVERLAPPEDWINDOW : ウィンドウモード)
         SetWindowLong(hwnd_, GWL_STYLE, windowStyle_);
 
-        // �V�����E�B���h�E�X�^�C���̗L����
+        // 新しいウィンドウスタイルの有効化
         SetWindowPos(
-			hwnd_, // �E�B���h�E�n���h��
-            HWND_NOTOPMOST, // �E�B���h�E��Z�I�[�_�[ ( �ŏ�ʈȊO�̂��ׂĂ̏� ) 
-			rect_.left, // �E�B���h�E��X���W
-			rect_.top, // �E�B���h�E��Y���W
-			rect_.right - rect_.left, // �E�B���h�E�̕�
-			rect_.bottom - rect_.top, // �E�B���h�E�̍���
-			SWP_FRAMECHANGED | SWP_NOACTIVATE //�X�^�C���ύX | �A�N�e�B�u�����Ȃ�
+			hwnd_, // ウィンドウハンドル
+            HWND_NOTOPMOST, // ウィンドウのZオーダー ( 最上位以外のすべての上 ) 
+			rect_.left, // ウィンドウのX座標
+			rect_.top, // ウィンドウのY座標
+			rect_.right - rect_.left, // ウィンドウの幅
+			rect_.bottom - rect_.top, // ウィンドウの高さ
+			SWP_FRAMECHANGED | SWP_NOACTIVATE //スタイル変更 | アクティブ化しない
 		);
 
-        // �E�B���h�E�̕\��
+        // ウィンドウの表示
         ShowWindow(hwnd_, SW_NORMAL);
     }
-    else // �t���X�N���[�����J�n
+    else // フルスクリーンを開始
     {
-        // RECT��rect_�ɕۑ� ( �E�B���h�E���[�h�ɖ߂��Ƃ��Ɏg�p���� )
+        // RECTをrect_に保存 ( ウィンドウモードに戻すときに使用する )
         GetWindowRect(hwnd_, &rect_);
 
-        // �E�B���h�E�X�^�C���̕ύX ( �E�B���h�E�X�^�C���͂��̂܂܂ɁA�^�C�g���o�[�A�ő剻�{�^���A���j���[�{�^���A�V�X�e�����j���[�A�T�C�Y�ύX�t���[�����폜 ) 
-        // �{�[�_�[���X�E�B���h�E��
+        // ウィンドウスタイルの変更 ( ウィンドウスタイルはそのままに、タイトルバー、最大化ボタン、メニューボタン、システムメニュー、サイズ変更フレームを削除 ) 
+        // ボーダーレスウィンドウへ
         SetWindowLong(hwnd_, GWL_STYLE, windowStyle_ & ~(WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME));
 
         RECT fullscreenWindowRect;
 
-        // Swapchain����RECT���擾����
+        // SwapchainからRECTを取得する
         if (pSwapChain)
         {
-            // Adapter�o�͂�ۑ�
+            // Adapter出力を保存
             IDXGIOutput* pOutput = nullptr;
-            // swapchain�N���X��swapchain�̎��Ԃ̊֐�
-            // Adapter�o�͂��擾
+            // swapchainクラスのswapchainの実態の関数
+            // Adapter出力を取得
             pSwapChain->mpSwapChain->GetContainingOutput(&pOutput);
             DXGI_OUTPUT_DESC Desc;
             pOutput->GetDesc(&Desc);
-            fullscreenWindowRect = Desc.DesktopCoordinates; // RECT���擾
+            fullscreenWindowRect = Desc.DesktopCoordinates; // RECTを取得
             pOutput->Release();
         }
         else
         {
-            // �v���C�}���f�B�X�v���C��RECT���擾
+            // プライマリディスプレイのRECTを取得
             DEVMODE devMode = {};
             devMode.dmSize = sizeof(DEVMODE);
-            // ���݂̃f�B�X�v���C�̐ݒ���擾
+            // 現在のディスプレイの設定を取得
             EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
 
             fullscreenWindowRect = {
@@ -274,11 +274,11 @@ void Window::SetMouseCapture(bool bCpature)
     isMouseCaptured_ = bCpature;
     if (bCpature)
     {
-        // �E�B���h�E�̈���擾
+        // ウィンドウ領域を取得
         RECT rcClip;
         GetClientRect(hwnd_, &rcClip);
 
-        // �J�[�\�����E�B���h�E���ɐ���
+        // カーソルをウィンドウ内に制限
         constexpr int PX_OFFSET = 15;
         constexpr int PX_WND_TITLE_OFFSET = 30;
         rcClip.left += PX_OFFSET;
@@ -286,12 +286,12 @@ void Window::SetMouseCapture(bool bCpature)
         rcClip.top += PX_OFFSET + PX_WND_TITLE_OFFSET;
         rcClip.bottom -= PX_OFFSET;
 
-        // �S��ʎ��ɂ̓}�E�X�J�[�\���̑���̓Q�[�����Ɉڏ�
-        int hr = ShowCursor(FALSE); // �J�[�\���̔�\��
+        // 全画面時にはマウスカーソルの操作はゲーム側に移譲
+        int hr = ShowCursor(FALSE); // カーソルの非表示
         while (hr >= 0) hr = ShowCursor(FALSE);
         
-        ClipCursor(&rcClip); // �J�[�\��������߂�
-        SetForegroundWindow(hwnd_); // �E�B���h�E���őO�ʂ�
+        ClipCursor(&rcClip); // カーソルを閉じ込める
+        SetForegroundWindow(hwnd_); // ウィンドウを最前面に
         SetFocus(hwnd_);
     }
     else
@@ -307,22 +307,22 @@ WindowClass::WindowClass(const std::string& name, HINSTANCE hInst, ::WNDPROC pro
 {
     ::WNDCLASSEXA wc = {};
 
-    // �E�B���h�E�N���X�̓o�^
-    wc.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS; // �㉺�̍ĕ`��A�_�u���N���b�N�̋���
-    wc.lpfnWndProc = procedure; // �E�B���h�E�v���V�[�W��s
-    wc.cbClsExtra = 0; // �E�B���h�E�N���X�̊g��������
-    wc.cbWndExtra = 0; // �E�B���h�E�C���X�^���X�̊g��������
+    // ウィンドウクラスの登録
+    wc.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS; // 上下の再描画、ダブルクリックの許可
+    wc.lpfnWndProc = procedure; // ウィンドウプロシージャs
+    wc.cbClsExtra = 0; // ウィンドウクラスの拡張メモリ
+    wc.cbWndExtra = 0; // ウィンドウインスタンスの拡張メモリ
     wc.hInstance = hInst;
-    wc.hIcon = ::LoadIcon(hInst, IDI_APPLICATION); // �E�B���h�E�A�C�R���̐ݒ� ( �f�t�H���g )
-    // �A�C�R���̓ǂݍ��݂Ɏ��s�����ꍇ
+    wc.hIcon = ::LoadIcon(hInst, IDI_APPLICATION); // ウィンドウアイコンの設定 ( デフォルト )
+    // アイコンの読み込みに失敗した場合
     if (wc.hIcon == NULL)
     {
         DWORD dw = GetLastError();
-        // TODO : �G���[���O�o��
+        // TODO : エラーログ出力
     }
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW); // �J�[�\���̐ݒ� ( �f�t�H���g )
-    wc.hbrBackground = NULL; // �h��Ԃ��Ȃ�
-    wc.lpszMenuName = NULL;  // ���j���[�Ȃ�
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW); // カーソルの設定 ( デフォルト )
+    wc.hbrBackground = NULL; // 塗りつぶしなし
+    wc.lpszMenuName = NULL;  // メニューなし
     wc.lpszClassName = name_.c_str();
     wc.cbSize = sizeof(::WNDCLASSEXA);
 
@@ -336,7 +336,7 @@ const std::string& WindowClass::GetName() const
 
 WindowClass::~WindowClass()
 {
-    // �E�B���h�E�N���X�̓o�^���� 
-    // �E�B���h�E�N���X��, �C���X�^���X�n���h��
-    ::UnregisterClassA(name_.c_str(), (HINSTANCE)::GetModuleHandle(nullptr)); // �Ăяo�����̃��W���[���n���h�����擾
+    // ウィンドウクラスの登録解除 
+    // ウィンドウクラス名, インスタンスハンドル
+    ::UnregisterClassA(name_.c_str(), (HINSTANCE)::GetModuleHandle(nullptr)); // 呼び出し元のモジュールハンドルを取得
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <mutex>
 #include <condition_variable>
@@ -6,7 +6,7 @@
 #include <future>
 #include <atomic>
 
-// future‚Ìó‘Ô‚ğŠm”F‚·‚é
+// futureã®çŠ¶æ…‹ã‚’ç¢ºèªã™ã‚‹
 template<typename R> bool is_readyy(std::future<R> const& f) { return f.wait_for(std::chrono::seconds(0)) == std::future_status::ready; }
 
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -15,16 +15,16 @@ template<typename R> bool is_readyy(std::future<R> const& f) { return f.wait_for
 //
 //---------------------------------------------------------------------------------------------------------------------------------------
 //
-// ƒVƒOƒiƒ‹
+// ã‚·ã‚°ãƒŠãƒ«
 //
 class Signal
 {
 public:
-	inline void NotifyOne() { cv.notify_one(); }; // ‚Ç‚ê‚©ˆê‚Â‚É’Ê’m‚·‚é
+	inline void NotifyOne() { cv.notify_one(); }; // ã©ã‚Œã‹ä¸€ã¤ã«é€šçŸ¥ã™ã‚‹
 	inline void NotifyAll() { cv.notify_all(); };
 
 	inline void Wait() { std::unique_lock<std::mutex> lk(this->mtx); this->cv.wait(lk); };
-	inline void Wait(bool(*pPred)()) { std::unique_lock<std::mutex> lk(this->mtx); this->cv.wait(lk, pPred); }; //pPred‚ªtrue‚©‚ÂAnotify‚ª—ˆ‚é‚Ü‚Å‘Ò‹@
+	inline void Wait(bool(*pPred)()) { std::unique_lock<std::mutex> lk(this->mtx); this->cv.wait(lk, pPred); }; //pPredãŒtrueã‹ã¤ã€notifyãŒæ¥ã‚‹ã¾ã§å¾…æ©Ÿ
 	template<class Functor> 
 	inline void Wait(Functor fn) { std::unique_lock<std::mutex> lk(this->mtx); this->cv.wait(lk, fn); };
 	
@@ -34,15 +34,15 @@ private:
 };
 
 //
-// ƒZƒ}ƒtƒH
+// ã‚»ãƒãƒ•ã‚©
 //
 class Semaphore
 {
 public:
 	Semaphore(int val, int max) : maxVal(max), currVal(val) {};
 
-	inline void P() { Wait();  } // g—p
-	inline void V() { Signal(); } // ‰ğ•ú
+	inline void P() { Wait();  } // ä½¿ç”¨
+	inline void V() { Signal(); } // è§£æ”¾
 	void Wait();
 	void Signal();
 private:
@@ -59,9 +59,9 @@ private:
 //
 //--------------------------------------------------
 //
-// ƒ^ƒXƒNƒLƒ…[
+// ã‚¿ã‚¹ã‚¯ã‚­ãƒ¥ãƒ¼
 // 
-using Task = std::function<void()>; // Task‚ÍŠÖ”ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äˆµ‚¤
+using Task = std::function<void()>; // Taskã¯é–¢æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦æ‰±ã†
 class TaskQueue
 {
 public:
@@ -69,27 +69,27 @@ public:
 	void AddTask(std::shared_ptr<T>& pTask);
 	bool TryPopTask(Task& task);
 
-	inline bool IsQueueEmpty() const { std::unique_lock<std::mutex> lock(mutex); return queue.empty(); } // ƒLƒ…[‚ª‹ó‚©‚Ç‚¤‚© ( ƒƒbƒN‚ğæ‚é )
+	inline bool IsQueueEmpty() const { std::unique_lock<std::mutex> lock(mutex); return queue.empty(); } // ã‚­ãƒ¥ãƒ¼ãŒç©ºã‹ã©ã†ã‹ ( ãƒ­ãƒƒã‚¯ã‚’å–ã‚‹ )
 	inline int GetNumActivaTasks() const { return activeTasks; }
 
-	// ƒ^ƒXƒN‚ªŠ®—¹‚µ‚½‚Æ‚«‚ÉŒÄ‚Ô
+	// ã‚¿ã‚¹ã‚¯ãŒå®Œäº†ã—ãŸã¨ãã«å‘¼ã¶
 	inline void OnTaskComplete() { --activeTasks; }
 
 private:
-	std::atomic<int> activeTasks = 0; // Œ»İÀs’†‚Ìƒ^ƒXƒN”
-	mutable std::mutex mutex; // ”r‘¼§Œä
-	std::queue<Task> queue; // ƒ^ƒXƒN‚ğ•Û‘¶‚·‚éƒLƒ…[
+	std::atomic<int> activeTasks = 0; // ç¾åœ¨å®Ÿè¡Œä¸­ã®ã‚¿ã‚¹ã‚¯æ•°
+	mutable std::mutex mutex; // æ’ä»–åˆ¶å¾¡
+	std::queue<Task> queue; // ã‚¿ã‚¹ã‚¯ã‚’ä¿å­˜ã™ã‚‹ã‚­ãƒ¥ãƒ¼
 };
 template<class T>
 inline void TaskQueue::AddTask(std::shared_ptr<T>& pTask)
 {
 	std::unique_lock<std::mutex> lock(mutex);
-	queue.emplace([=]() { (*pTask)(); }); // ƒLƒ…[‚Éƒ^ƒXƒN‚ğÀs‚µ‚Ä’Ç‰Á
+	queue.emplace([=]() { (*pTask)(); }); // ã‚­ãƒ¥ãƒ¼ã«ã‚¿ã‚¹ã‚¯ã‚’å®Ÿè¡Œã—ã¦è¿½åŠ 
 	++activeTasks;
 }
 
 //
-// ƒXƒŒƒbƒhƒv[ƒ‹
+// ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ¼ãƒ«
 //
 class ThreadPool
 {
@@ -105,27 +105,27 @@ public:
 	inline bool IsExiting() const { return mbStopWorkers.load(); }
 
 	template<class T>
-	auto AddTask(T task) -> std::future<decltype(task()) > ; // task()‚Ì•Ô‚è’l‚ÌŒ^‚ÌFuture‚ğ•Ô‚·
+	auto AddTask(T task) -> std::future<decltype(task()) > ; // task()ã®è¿”ã‚Šå€¤ã®å‹ã®Futureã‚’è¿”ã™
 
 private:
 	void Execute();
 
 	Signal						mSignal;
-	std::atomic<bool>			mbStopWorkers; // ƒXƒŒƒbƒh‚ğ’â~‚·‚é‚©‚Ç‚¤‚©
+	std::atomic<bool>			mbStopWorkers; // ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’åœæ­¢ã™ã‚‹ã‹ã©ã†ã‹
 	TaskQueue					mTaskQueue;
 	std::vector<std::thread>	mWorkers;
-	std::string					mThreadPoolName;  // ƒXƒŒƒbƒhƒv[ƒ‹‚Ì–¼‘O ( 1, 2, 3 ) 
+	std::string					mThreadPoolName;  // ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ¼ãƒ«ã®åå‰ ( 1, 2, 3 ) 
 };
 
 template<class T>
 auto ThreadPool::AddTask(T task)-> std::future<decltype(task())>
 {
-	using task_return_t = decltype(task()); // task()‚Ì•Ô‚è’l‚ÌŒ^
+	using task_return_t = decltype(task()); // task()ã®è¿”ã‚Šå€¤ã®å‹
 
 	auto pTask = std::make_shared<std::packaged_task<task_return_t()>>(std::move(task));
 	mTaskQueue.AddTask(pTask);
 
-	mSignal.NotifyOne(); // ‚Ç‚ê‚©ˆê‚Â‚É’Ê’m‚·‚é
+	mSignal.NotifyOne(); // ã©ã‚Œã‹ä¸€ã¤ã«é€šçŸ¥ã™ã‚‹
 
 	return pTask->get_future();
 }
@@ -172,7 +172,7 @@ private:
 	int iBuffer = 0; // 0 or 1
 };
 
-// •À—ñƒLƒ…[
+// ä¸¦åˆ—ã‚­ãƒ¥ãƒ¼
 template<class T>
 class ConcurrentQueue
 {
@@ -188,7 +188,7 @@ public:
 private:
 	mutable std::mutex mMtx;
 	std::queue<T> mQueue;
-	void(*mpfnProcess)(T&); // ŠÖ”ƒ|ƒCƒ“ƒ^
+	void(*mpfnProcess)(T&); // é–¢æ•°ãƒã‚¤ãƒ³ã‚¿
 };
 
 template<class T>

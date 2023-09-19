@@ -1,4 +1,4 @@
-#include "Engine.h"
+ï»¿#include "Engine.h"
 #include "Windows.h"
 
 //---------------------------------------------------------------------
@@ -8,15 +8,15 @@
 //---------------------------------------------------------------------
 void Engine::MainThread_HandleEvents()
 {
-	// ƒCƒxƒ“ƒgƒLƒ…[‚ÉƒCƒxƒ“ƒg‚ª“ü‚Á‚Ä‚¢‚È‚©‚Á‚½‚çI—¹
+	// ã‚¤ãƒ™ãƒ³ãƒˆã‚­ãƒ¥ãƒ¼ã«ã‚¤ãƒ™ãƒ³ãƒˆãŒå…¥ã£ã¦ã„ãªã‹ã£ãŸã‚‰çµ‚äº†
 	if (mEventQueue_EnToWin_Main.IsEmpty())
 		return;
 
-	// ƒCƒxƒ“ƒgƒLƒ…[‚ğƒXƒƒbƒv‚µƒXƒƒbƒv‚µ‚½‚à‚Ì‚ğ“Ç‚İæ‚é
+	// ã‚¤ãƒ™ãƒ³ãƒˆã‚­ãƒ¥ãƒ¼ã‚’ã‚¹ãƒ¯ãƒƒãƒ—ã—ã‚¹ãƒ¯ãƒƒãƒ—ã—ãŸã‚‚ã®ã‚’èª­ã¿å–ã‚‹
 	mEventQueue_EnToWin_Main.SwapBuffers();
 	std::queue<EventPtr_t>& q =  mEventQueue_EnToWin_Main.GetBackContainer();
 
-	// ƒCƒxƒ“ƒg‚ğˆ—‚·‚é
+	// ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡¦ç†ã™ã‚‹
 	std::shared_ptr<IEvent> pEvent = nullptr;
 	while(!q.empty())
 	{
@@ -27,19 +27,19 @@ void Engine::MainThread_HandleEvents()
 		{
 		case MOUSE_CAPTURE_EVENT:
 		{
-			// ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[İ’è‚ğƒIƒ“‚É
+			// ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼è¨­å®šã‚’ã‚ªãƒ³ã«
 			std::shared_ptr<SetMouseCaptureEvent> p = std::static_pointer_cast<SetMouseCaptureEvent>(pEvent);
 			this->SetMouseCaptureForWindow(p->hwnd, p->bCapture, p->bReleaseAtCapturedPosition);
 		} break;
 		case HANDLE_WINDOW_TRANSITIONS_EVENT:
 		{
-			// ƒtƒ‹ƒXƒNƒŠ[ƒ“AƒEƒBƒ“ƒhƒEƒ‚[ƒh‚ÌØ‚è‘Ö‚¦
+			// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã®åˆ‡ã‚Šæ›¿ãˆ
 			auto& pWnd = this->GetWindow(pEvent->hwnd);
 			HandleWindowTransitions(pWnd, this->GetWindowSettings(pEvent->hwnd));
 		} break;
 		case SHOW_WINDOW_EVENT:
 		{
-			// ƒEƒBƒ“ƒhƒE•\¦
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 			this->GetWindow(pEvent->hwnd)->Show();
 		} break;
 		}
@@ -50,10 +50,10 @@ void Engine::HandleWindowTransitions(std::unique_ptr<Window>& pWin, const FWindo
 {
 	if (!pWin) return;
 
-	// ƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Å‚ ‚é‚©ƒ`ƒFƒbƒN
+	// ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	const bool bHandlingMainWindowTransition = pWin == mpWinMain;
 
-	// ƒfƒoƒbƒNƒEƒBƒ“ƒhƒE‚ªƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Æ“¯‚¶ƒfƒBƒXƒvƒŒƒC‚Åƒtƒ‹ƒXƒNƒŠ[ƒ“‚É‚È‚é‚Ì‚ğ–h‚®
+	// ãƒ‡ãƒãƒƒã‚¯ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¨åŒã˜ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤ã§ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«ãªã‚‹ã®ã‚’é˜²ã
 	if (mpWinMain->IsFullscreen()
 		&& (mSettings.WndMain.PreferredDisplay == mSettings.WndDebug.PreferredDisplay)
 		&& settings.IsDisplayModeFullscreen()
@@ -66,15 +66,15 @@ void Engine::HandleWindowTransitions(std::unique_ptr<Window>& pWin, const FWindo
 
 	// Borderless fullscreen transitions are handled through Window object
 	// Exclusive  fullscreen transitions are handled through the Swapchain
-	// ƒ{[ƒ_[ƒŒƒXƒEƒBƒ“ƒhƒE‚Ìê‡‚ÍƒEƒBƒ“ƒhƒEƒIƒuƒWƒFƒNƒg‚ªA”r‘¼“Iƒtƒ‹ƒXƒNƒŠ[ƒ“‚Ìê‡‚ÍƒXƒƒbƒvƒ`ƒF[ƒ“‚ªƒnƒ“ƒhƒŠƒ“ƒO‚·‚é
+	// ãƒœãƒ¼ãƒ€ãƒ¼ãƒ¬ã‚¹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å ´åˆã¯ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã€æ’ä»–çš„ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®å ´åˆã¯ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ãŒãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°ã™ã‚‹
 	
-	// ƒ{[ƒ_[ƒŒƒXƒEƒBƒ“ƒhƒE‚Ìê‡
+	// ãƒœãƒ¼ãƒ€ãƒ¼ãƒ¬ã‚¹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å ´åˆ
 	if (settings.DisplayMode == EDisplayMode::BORDERLESS_FULLSCREEN)
 	{
 		HWND hwnd = pWin->GetHWND();
 		// pWin->ToggleWindowedFullscreen(&mRenderer.GetWindowSwapChain(hwnd));
 
-		// ƒƒCƒ“ƒEƒBƒ“ƒhƒE‚Ìê‡ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[‚ğİ’è
+		// ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å ´åˆãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚’è¨­å®š
 		if (bHandlingMainWindowTransition)
 			SetMouseCaptureForWindow(hwnd, true, true);
 	}
@@ -84,19 +84,19 @@ void Engine::SetMouseCaptureForWindow(HWND hwnd, bool bCaptureMouse, bool bRelea
 {
 	auto& pWin = this->GetWindow(hwnd);
 
-	// ƒEƒBƒ“ƒhƒE‚ÌInputState‚ğæ“¾‚µ‚æ‚¤‚Æ‚·‚é
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®InputStateã‚’å–å¾—ã—ã‚ˆã†ã¨ã™ã‚‹
 	if (mInputStates.find(hwnd) == mInputStates.end())
 	{
 		Log::Error("Warning: couldn't find InputState for hwnd=0x%x", hwnd);
 	}
 
-	// ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[İ’è
+	// ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼è¨­å®š
 	pWin->SetMouseCapture(bCaptureMouse);
 
-	// ƒ}ƒEƒXƒJ[ƒ\ƒ‹ˆÊ’u‚Ìæ“¾A•Û‘¶
+	// ãƒã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®å–å¾—ã€ä¿å­˜
 	if (bCaptureMouse)
 	{
-		// ƒ}ƒEƒXƒJ[ƒ\ƒ‹‚ÌˆÊ’u‚ğæ“¾‚µAƒLƒƒƒvƒ`ƒƒ[‚Ö•Û‘¶‚·‚é
+		// ãƒã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ã®ä½ç½®ã‚’å–å¾—ã—ã€ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã¸ä¿å­˜ã™ã‚‹
 		GetCursorPos(&this->mMouseCapturePosition);
 #if VERBOSE_LOGGING
 		Log::Info("Capturing Mouse: Last position=(%d, %d)", this->mMouseCapturePosition.x, this->mMouseCapturePosition.y);
@@ -104,10 +104,10 @@ void Engine::SetMouseCaptureForWindow(HWND hwnd, bool bCaptureMouse, bool bRelea
 	}
 	else
 	{
-		// ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[‰ğœ
+		// ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼è§£é™¤
 		if (bReleaseAtCapturedPosition)
 		{
-			// ƒJ[ƒ\ƒ‹‚Ì•œŒ³
+			// ã‚«ãƒ¼ã‚½ãƒ«ã®å¾©å…ƒ
 			SetCursorPos(this->mMouseCapturePosition.x, this->mMouseCapturePosition.y);
 		}
 #if VERBOSE_LOGGING

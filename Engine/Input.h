@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <array>
 #include <unordered_map>
@@ -20,9 +20,9 @@ class Input
 public:
 	enum EMouseButtons
 	{	// windows btn codes: https://docs.microsoft.com/en-us/windows/win32/inputdev/wm-mbuttondown
-		MOUSE_BUTTON_LEFT = MK_LBUTTON, // ¶ƒNƒŠƒbƒN
-		MOUSE_BUTTON_RIGHT = MK_RBUTTON, // ‰EƒNƒŠƒbƒN
-		MOUSE_BUTTON_MIDDLE = MK_MBUTTON // ’†‰›ƒNƒŠƒbƒN
+		MOUSE_BUTTON_LEFT = MK_LBUTTON, // å·¦ã‚¯ãƒªãƒƒã‚¯
+		MOUSE_BUTTON_RIGHT = MK_RBUTTON, // å³ã‚¯ãƒªãƒƒã‚¯
+		MOUSE_BUTTON_MIDDLE = MK_MBUTTON // ä¸­å¤®ã‚¯ãƒªãƒƒã‚¯
 	};
 	// ---------------------------------------------------------------------------------------------
 	using KeyState = char;
@@ -88,7 +88,7 @@ private:
 	ButtonStateMap_t                     mMouseButtonsPrevious;
 	ButtonStateMap_t                     mMouseButtonDoubleClicks;
 
-	std::array<float, 2>                 mMouseDelta; // ƒ}ƒEƒX‚ÌˆÚ“®—Ê (x, y)
+	std::array<float, 2>                 mMouseDelta; // ãƒã‚¦ã‚¹ã®ç§»å‹•é‡ (x, y)
 	std::array<long, 2>                  mMousePosition;
 	short                                mMouseScroll;
 };

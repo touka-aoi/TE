@@ -1,4 +1,4 @@
-#include "Engine.h"
+ï»¿#include "Engine.h"
 #include "Input.h"
 
 #include <windowsx.h>
@@ -18,15 +18,15 @@ constexpr int MIN_WINDOW_SIZE = 128;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	// LogWndMsg(uMsg, hwnd);
-	// ƒ†[ƒU[w’è‚ÌƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğæ“¾
+	// ãƒ¦ãƒ¼ã‚¶ãƒ¼æŒ‡å®šã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’å–å¾—
 	IWindow* pWindow = reinterpret_cast<IWindow*> (::GetWindowLongPtr(hwnd, GWLP_USERDATA));
-	// ƒ†[ƒU[ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ªæ“¾‚Å‚«‚È‚©‚Á‚½ê‡
+	// ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ãŒå–å¾—ã§ããªã‹ã£ãŸå ´åˆ
 	if (!pWindow)
 	{
 #if 0
 		Log::Warning("WndProc::pWindow=nullptr");
 #endif
-		// ƒfƒtƒHƒ‹ƒg‚ÌƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚Éˆ—‚ğ”C‚¹‚é
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã«å‡¦ç†ã‚’ä»»ã›ã‚‹
 		return ::DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 	
@@ -37,16 +37,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// WINDOW
 		// 
 
-		// Šî–{“I‚ÉeƒEƒBƒ“ƒhƒE‚ÌŠÖ”‚ğŒÄ‚Ño‚·
+		// åŸºæœ¬çš„ã«è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã™
 	case WM_SIZE: if (pWindow->pOwner) pWindow->pOwner->OnWindowResize(hwnd); return 0;
-	case WM_GETMINMAXINFO: // ‹K’è‚ÌÅ¬EÅ‚ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğæ“¾‚·‚é
+	case WM_GETMINMAXINFO: // è¦å®šã®æœ€å°ãƒ»æœ€é«˜ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
 	{
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 		lpMMI->ptMinTrackSize.x = MIN_WINDOW_SIZE;
 		lpMMI->ptMinTrackSize.y = MIN_WINDOW_SIZE;
 		break;
 	}
-	case WM_PAINT: // ƒEƒBƒ“ƒhƒE‚Ì“h‚è‚Â‚Ô‚µ ( ‰ŠúF )
+	case WM_PAINT: // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¡—ã‚Šã¤ã¶ã— ( åˆæœŸè‰² )
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hwnd, &ps);
@@ -68,16 +68,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			UINT wparam_low = LOWORD(wParam);
 
 			// wParam
-			// LWORD : ƒEƒBƒ“ƒhƒE‚ªƒAƒNƒeƒBƒu‚©‚Ç‚¤‚©
-			// HWORD : Å¬‰»‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©A0ˆÈŠO‚¾‚ÆÅ¬‰»‚µ‚Ä‚¢‚é
+			// LWORD : ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã‹ã©ã†ã‹
+			// HWORD : æœ€å°åŒ–ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã€0ä»¥å¤–ã ã¨æœ€å°åŒ–ã—ã¦ã„ã‚‹
 			const bool bWindowInactive = (wparam_low == WA_INACTIVE);
 			const bool bWindowActivation = (wparam_low == WA_ACTIVE) || (wparam_low == WA_CLICKACTIVE);
 
 			// lParam
-			// ƒAƒNƒeƒBƒu‰»‚³‚ê‚éƒEƒBƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
+			// ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã•ã‚Œã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
 			HWND hwnd = reinterpret_cast<HWND>(lParam);
-			// bWindowInactive‚ªINACTIVE‚Ìê‡AACTIVE‰»
-			// bWindowInactive‚ªACTIVE‚Ìê‡ADEACTIVE‰»
+			// bWindowInactiveãŒINACTIVEã®å ´åˆã€ACTIVEåŒ–
+			// bWindowInactiveãŒACTIVEã®å ´åˆã€DEACTIVEåŒ–
 			if (bWindowInactive)
 				pWindow->pOwner->OnWindowActivate(hwnd);
 			else if (hwnd != NULL)
@@ -95,7 +95,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 	}
-	case WM_DISPLAYCHANGE: // ƒfƒBƒXƒvƒŒƒC‰ğ‘œ“x•ÏX
+	case WM_DISPLAYCHANGE: // ãƒ‡ã‚£ã‚¹ãƒ—ãƒ¬ã‚¤è§£åƒåº¦å¤‰æ›´æ™‚
 	{
 		if (pWindow->pOwner)
 		{
@@ -111,10 +111,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//
 	case WM_KEYDOWN: if (pWindow->pOwner) pWindow->pOwner->OnKeyDown(hwnd, wParam); return 0;
 	case WM_KEYUP:   if (pWindow->pOwner) pWindow->pOwner->OnKeyUp(hwnd, wParam);   return 0;
-		// F10‚©ALT‚ğƒ`ƒFƒbƒN‚·‚é
+		// F10ã‹ALTã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	case WM_SYSKEYDOWN:
 		// Check ALT+ENTER to FullScreen
-		// ( Enter ) + ( ALT ) ‚ğƒ`ƒFƒbƒN
+		// ( Enter ) + ( ALT ) ã‚’ãƒã‚§ãƒƒã‚¯
 		if ((wParam == VK_RETURN) && (lParam & (1 << 29)))
 		{
 			if (pWindow->pOwner)
@@ -123,7 +123,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 		} break;
-		// ƒƒjƒ…[“WŠJA”ñ‘Î‰ƒL[‚ª‰Ÿ‚³‚ê‚½
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼å±•é–‹ã€éå¯¾å¿œã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸæ™‚
 	case WM_MENUCHAR: return MNC_CLOSE << 16;
 
 		// 
@@ -143,7 +143,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pWindow->pOwner->OnMouseButtonDown(hwnd, wParam, true);
 		}
 		return 0;
-	// MouseUpƒCƒxƒ“ƒg‚ÍAwParam‚ª0‚Ì‚½‚ßŒÂ•Ê‚ÉƒCƒxƒ“ƒg‚ğ‘‚­
+	// MouseUpã‚¤ãƒ™ãƒ³ãƒˆã¯ã€wParamãŒ0ã®ãŸã‚å€‹åˆ¥ã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ›¸ã
 	case WM_MBUTTONUP: if (pWindow->pOwner) pWindow->pOwner->OnMouseButtonUp(hwnd, MK_MBUTTON); return 0;
 	case WM_RBUTTONUP: if (pWindow->pOwner) pWindow->pOwner->OnMouseButtonUp(hwnd, MK_RBUTTON); return 0;
 	case WM_LBUTTONUP: if (pWindow->pOwner) pWindow->pOwner->OnMouseButtonUp(hwnd, MK_LBUTTON); return 0;
@@ -159,7 +159,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 // =================================================================================================
 // WINDOW EVENTS
 // =================================================================================================
-// •K—v‚Èİ’è‚ğ‚µ‚ÄAEvent‚ğì¬AƒLƒ…[‚É’Ç‰Á‚·‚é
+// å¿…è¦ãªè¨­å®šã‚’ã—ã¦ã€Eventã‚’ä½œæˆã€ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ ã™ã‚‹
 
 void Engine::OnWindowResize(HWND hwnd)
 {
@@ -220,17 +220,17 @@ void Engine::OnWindowCreate(HWND hwnd)
 #endif
 }
 
-// ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒX‚Ì’â~‚ğŠm”FŒãI—¹‚·‚é
+// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ‘ã‚¹ã®åœæ­¢ã‚’ç¢ºèªå¾Œçµ‚äº†ã™ã‚‹
 void Engine::OnWindowClose(HWND hwnd)
 {
 	std::shared_ptr<WindowCloseEvent> ptr = std::make_shared<WindowCloseEvent>(hwnd);
 	mEventQueue_WinToE_Renderer.AddItem(ptr);
 
-	// ƒŒƒ“ƒ_ƒŠƒ“ƒOƒpƒX‚Ì’â~‚ğŠm”F
+	// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ‘ã‚¹ã®åœæ­¢ã‚’ç¢ºèª
 	//ptr->Signal_WindowDependentResourcesDestroyed.Wait();
 	if (hwnd == mpWinMain->GetHWND())
 	{
-		PostQuitMessage(0); // •K‚¸MainThread‚Å‘—‚é
+		PostQuitMessage(0); // å¿…ãšMainThreadã§é€ã‚‹
 	}
 	GetWindow(hwnd)->Close();
 }
@@ -250,7 +250,7 @@ void Engine::OnWindowLoseFocus(HWND hwnd)
 	Log::Warning("OnWindowLoseFocus<%x, %s>", hwnd, this->GetWindowName(hwnd).c_str());
 #endif
 
-	// MainƒEƒBƒ“ƒhƒE‚ªƒtƒH[ƒJƒX‚ğ¸‚Á‚½‚çƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒ[‚ğI—¹‚·‚é
+	// Mainã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¤±ã£ãŸã‚‰ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒ¼ã‚’çµ‚äº†ã™ã‚‹
 	if (hwnd == mpWinMain->GetHWND() && mpWinMain->IsMouseCaptured())
 		this->SetMouseCaptureForWindow(mpWinMain->GetHWND(), false, true);
 }

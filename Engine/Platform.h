@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 #include "Settings.h"
 
 #include "Types.h"
 
-// ƒRƒ“ƒtƒBƒOİ’è
+// ã‚³ãƒ³ãƒ•ã‚£ã‚°è¨­å®š
 
 struct FStartupParameters
 {
@@ -39,11 +39,11 @@ struct FStartupParameters
 	uint8 bOverrideENGSetting_StartupScene : 1;
 };
 
-// ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-// zŠÂ‰ÁZ
+// å¾ªç’°åŠ ç®—
 template<typename T> static inline T CircularIncrement(T currVal, T maxVal) { return (currVal + 1) % maxVal; }
-// zŠÂŒ¸Z (Å¬’l‚Ìê‡AÅ‘å’l‚Éƒ‹[ƒv‚·‚é)
+// å¾ªç’°æ¸›ç®— (æœ€å°å€¤ã®å ´åˆã€æœ€å¤§å€¤ã«ãƒ«ãƒ¼ãƒ—ã™ã‚‹)
 template<typename T> static inline T CircularDecrement(T currVal, T maxVal, T minVal = 0) { return currVal == minVal ? maxVal - 1 : currVal - 1; }
 

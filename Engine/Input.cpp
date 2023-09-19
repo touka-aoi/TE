@@ -1,11 +1,11 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 
 #include <algorithm>
 #include <cassert>
 
-// KeyInput‚ÆƒCƒxƒ“ƒg‚Ìƒ}ƒbƒsƒ“ƒO‚ğs‚¤ƒNƒ‰ƒX
+// KeyInputã¨ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
 
-// ƒL[ƒ}ƒbƒsƒ“ƒO
+// ã‚­ãƒ¼ãƒãƒƒãƒ”ãƒ³ã‚°
 static const Input::KeyMapping KEY_MAP = []()
 {
 	Input::KeyMapping m;
@@ -51,8 +51,8 @@ static const Input::KeyMapping KEY_MAP = []()
 
 static constexpr bool IsMouseKey(WPARAM wparam)
 {
-	// ƒ}ƒEƒXƒ{ƒ^ƒ“‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
-	// (¶A‰EA’†‰›A¶‰EA ’†‰›‰EA ’†‰›¶A¶‰E’†‰›)
+	// ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
+	// (å·¦ã€å³ã€ä¸­å¤®ã€å·¦å³ã€ ä¸­å¤®å³ã€ ä¸­å¤®å·¦ã€å·¦å³ä¸­å¤®)
 	return wparam == Input::EMouseButtons::MOUSE_BUTTON_LEFT 
 		|| wparam == Input::EMouseButtons::MOUSE_BUTTON_RIGHT 
 		|| wparam == Input::EMouseButtons::MOUSE_BUTTON_MIDDLE
@@ -64,38 +64,38 @@ static constexpr bool IsMouseKey(WPARAM wparam)
 
 void Input::InitRawInputDevices(HWND hwnd)
 {
-	// ƒ}ƒEƒX‚Ì“o˜^
+	// ãƒã‚¦ã‚¹ã®ç™»éŒ²
 	RAWINPUTDEVICE Rid[1];
 	Rid[0].usUsagePage = (USHORT)0x01;	// HID_USAGE_PAGE_GENERIC;
 	Rid[0].usUsage = (USHORT)0x02;	// HID_USAGE_GENERIC_MOUSE;
 	Rid[0].dwFlags = 0;
 	Rid[0].hwndTarget = hwnd;
-	// RawInput“o˜^¸”s
+	// RawInputç™»éŒ²å¤±æ•—æ™‚
 	if (FALSE == (RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]))))	
 	{
 		//OutputDebugString("Failed to register raw input device!");
 	}
 
-	// ƒfƒoƒCƒXî•ñ‚Ìæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹æƒ…å ±ã®å–å¾—
 	//-----------------------------------------------------
 	
-	// ƒfƒoƒCƒX‚Ì”‚ğæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹ã®æ•°ã‚’å–å¾—
 	UINT numDevices = 0;
 	GetRawInputDeviceList(NULL, &numDevices, sizeof(RAWINPUTDEVICELIST));
 	if (numDevices == 0) return;
 
-	// ƒfƒoƒCƒX‚ğæ“¾ (RAWINPUTDEVICELIST‚ÍRawInputDevice‚Ìƒnƒ“ƒhƒ‹•t‚«)
+	// ãƒ‡ãƒã‚¤ã‚¹ã‚’å–å¾— (RAWINPUTDEVICELISTã¯RawInputDeviceã®ãƒãƒ³ãƒ‰ãƒ«ä»˜ã)
 	std::vector<RAWINPUTDEVICELIST> deviceList(numDevices);
 	GetRawInputDeviceList(
 		&deviceList[0], &numDevices, sizeof(RAWINPUTDEVICELIST));
 
-	// ƒfƒoƒCƒXî•ñ‚ğæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹æƒ…å ±ã‚’å–å¾—
 	std::vector<wchar_t> deviceNameData;
 	std::wstring deviceName;
 	for (UINT i = 0; i < numDevices; ++i)
 	{
 		const RAWINPUTDEVICELIST& device = deviceList[i];
-		// ƒ}ƒEƒXƒfƒoƒCƒX‚Ì
+		// ãƒã‚¦ã‚¹ãƒ‡ãƒã‚¤ã‚¹ã®æ™‚
 		if (device.dwType == RIM_TYPEMOUSE)
 		{
 			char info[1024];
@@ -103,19 +103,19 @@ void Input::InitRawInputDevices(HWND hwnd)
 			//OutputDebugString(info);
 
 			UINT dataSize = 0;
-			// ƒfƒoƒCƒX–¼‚ğæ“¾‚·‚é‚½‚ß‚Ìƒoƒbƒtƒ@ƒTƒCƒY‚ğæ“¾ ( RIDI_DEVICENAME )
+			// ãƒ‡ãƒã‚¤ã‚¹åã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’å–å¾— ( RIDI_DEVICENAME )
 			GetRawInputDeviceInfo(device.hDevice, RIDI_DEVICENAME, nullptr, &dataSize);
 			if (dataSize)
 			{
-				// ƒTƒCƒY‚Ì•ÏX
+				// ã‚µã‚¤ã‚ºã®å¤‰æ›´
 				deviceNameData.resize(dataSize);
 				UINT result = GetRawInputDeviceInfo(device.hDevice, RIDI_DEVICENAME, &deviceNameData[0], &dataSize);
-				// ƒGƒ‰[ƒ`ƒFƒbƒN
+				// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 				if (result != UINT_MAX)
 				{
 					deviceName.assign(deviceNameData.begin(), deviceNameData.end());
 
-					// ƒfƒoƒCƒX–¼‚ğæ“¾
+					// ãƒ‡ãƒã‚¤ã‚¹åã‚’å–å¾—
 					// char info[1024];
 					// const std::string ndeviceName = StrUtil::UnicodeToASCII(deviceNameData.data());
 					// sprintf_s(info, "  Name=%s\n", ndeviceName.c_str());
@@ -150,43 +150,43 @@ bool Input::ReadRawInput_Mouse(LPARAM lParam, MouseInputEventData* pDataOut)
 	constexpr UINT RAW_INPUT_SIZE_IN_BYTES = 48;
 
 	UINT rawInputSize = RAW_INPUT_SIZE_IN_BYTES;
-	LPBYTE inputBuffer[RAW_INPUT_SIZE_IN_BYTES]; // ƒoƒCƒgƒf[ƒ^‚Ìƒ|ƒCƒ“ƒ^
-	ZeroMemory(inputBuffer, RAW_INPUT_SIZE_IN_BYTES); // ƒoƒbƒtƒ@‚Ì‰Šú‰»
+	LPBYTE inputBuffer[RAW_INPUT_SIZE_IN_BYTES]; // ãƒã‚¤ãƒˆãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒ³ã‚¿
+	ZeroMemory(inputBuffer, RAW_INPUT_SIZE_IN_BYTES); // ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 
 	GetRawInputData(
 		(HRAWINPUT)lParam,
-		RID_INPUT,				// INPUTî•ñ‚ğæ“¾
-		inputBuffer,			// ƒoƒbƒtƒ@
-		&rawInputSize,			// ƒoƒbƒtƒ@ƒTƒCƒY	
-		sizeof(RAWINPUTHEADER)	// ƒwƒbƒ_ƒTƒCƒY
+		RID_INPUT,				// INPUTæƒ…å ±ã‚’å–å¾—
+		inputBuffer,			// ãƒãƒƒãƒ•ã‚¡
+		&rawInputSize,			// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º	
+		sizeof(RAWINPUTHEADER)	// ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚º
 	);
 
-	// RAWINPUT\‘¢‘Ì‚Ìƒ|ƒCƒ“ƒ^‚ÉƒLƒƒƒXƒg
+	// RAWINPUTæ§‹é€ ä½“ã®ãƒã‚¤ãƒ³ã‚¿ã«ã‚­ãƒ£ã‚¹ãƒˆ
 	RAWINPUT* raw = (RAWINPUT*)inputBuffer; assert(raw);
 	RAWMOUSE rawMouse = raw->data.mouse;
 	bool bIsMouseInptut = false;
 
-	// ƒ}ƒEƒXƒzƒC[ƒ‹‚ÌˆÚ“®—Ê‚ğæ“¾
-	// ƒ}ƒEƒXƒzƒC[ƒ‹ˆ—‚¾‚¯‚ğæ‚èo‚µ‚ÄAƒ}ƒEƒXƒzƒC[ƒ‹ˆ—‚©ƒ`ƒFƒbƒN‚·‚é
+	// ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã®ç§»å‹•é‡ã‚’å–å¾—
+	// ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«å‡¦ç†ã ã‘ã‚’å–ã‚Šå‡ºã—ã¦ã€ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«å‡¦ç†ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	if ((rawMouse.usButtonFlags & RI_MOUSE_WHEEL) == RI_MOUSE_WHEEL ||
 		(rawMouse.usButtonFlags & RI_MOUSE_HWHEEL) == RI_MOUSE_HWHEEL)
 	{
-		// ƒ}ƒEƒXƒzƒC[ƒ‹‚ÌˆÚ“®—Ê
+		// ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã®ç§»å‹•é‡
 		static const unsigned long defaultScrollLinesPerWheelDelta = 3;
 		static const unsigned long defaultScrollCharsPerWheelDelta = 1;
 
-		float wheelDelta = (float)(short)rawMouse.usButtonData; // ‰ñ“]•ûŒü‚Ìæ“¾
-		float numTicks = wheelDelta / WHEEL_DELTA; // ƒzƒC[ƒ‹‚Ì‰ñ“]—Ê‚Ìæ“¾
+		float wheelDelta = (float)(short)rawMouse.usButtonData; // å›è»¢æ–¹å‘ã®å–å¾—
+		float numTicks = wheelDelta / WHEEL_DELTA; // ãƒ›ã‚¤ãƒ¼ãƒ«ã®å›è»¢é‡ã®å–å¾—
 
-		bool isHorizontalScroll = (rawMouse.usButtonFlags & RI_MOUSE_HWHEEL) == RI_MOUSE_HWHEEL; // •½sƒXƒNƒ[ƒ‹‚ğƒ`ƒFƒbƒN
+		bool isHorizontalScroll = (rawMouse.usButtonFlags & RI_MOUSE_HWHEEL) == RI_MOUSE_HWHEEL; // å¹³è¡Œã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã‚’ãƒã‚§ãƒƒã‚¯
 		bool isScrollByPage = false;
 		float scrollDelta = numTicks;
 
 		if (isHorizontalScroll)
 		{
-			// ƒCƒxƒ“ƒg‚ÖƒCƒ“ƒvƒbƒg—Ê‚ğ“n‚·
+			// ã‚¤ãƒ™ãƒ³ãƒˆã¸ã‚¤ãƒ³ãƒ—ãƒƒãƒˆé‡ã‚’æ¸¡ã™
 			pDataOut->scrollChars = defaultScrollCharsPerWheelDelta;
-			// ƒXƒNƒ[ƒ‹—Ê‚Ìæ“¾
+			// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«é‡ã®å–å¾—
 			SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, &pDataOut->scrollChars, 0);
 			scrollDelta *= pDataOut->scrollChars;
 		}
@@ -204,16 +204,16 @@ bool Input::ReadRawInput_Mouse(LPARAM lParam, MouseInputEventData* pDataOut)
 		bIsMouseInptut = true;
 	}
 
-	// ƒ}ƒEƒX‚ÌˆÚ“®‚ğæ“¾
+	// ãƒã‚¦ã‚¹ã®ç§»å‹•ã‚’å–å¾—
 	if ((rawMouse.usFlags & MOUSE_MOVE_ABSOLUTE) == MOUSE_MOVE_ABSOLUTE)
 	{
 		bool isVirtualDesktop = (rawMouse.usFlags & MOUSE_VIRTUAL_DESKTOP) == MOUSE_VIRTUAL_DESKTOP;
 
-		// ƒfƒXƒNƒgƒbƒv‚Ì•A‚‚³‚ğæ“¾
+		// ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã®å¹…ã€é«˜ã•ã‚’å–å¾—
 		int width = GetSystemMetrics(isVirtualDesktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
 		int height = GetSystemMetrics(isVirtualDesktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
 
-		// ƒ}ƒEƒX‚Ìâ‘ÎÀ•W‚ğæ“¾ ( 65535 ‚ÅŠ„‚é‚±‚Æ‚ÅA0.0f ` 1.0f ‚Ì”ÍˆÍ‚É³‹K‰» )
+		// ãƒã‚¦ã‚¹ã®çµ¶å¯¾åº§æ¨™ã‚’å–å¾— ( 65535 ã§å‰²ã‚‹ã“ã¨ã§ã€0.0f ï½ 1.0f ã®ç¯„å›²ã«æ­£è¦åŒ– )
 		int absoluteX = int((rawMouse.lLastX / 65535.0f) * width); 
 		int absoluteY = int((rawMouse.lLastY / 65535.0f) * height);
 	}
@@ -234,14 +234,14 @@ Input::Input()
 	, mMouseScroll(0)
 {
 
-	// ƒ}ƒEƒX‚ğ‰Šú‰» ( ‰½‚à‰Ÿ‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Ö )
+	// ãƒã‚¦ã‚¹ã‚’åˆæœŸåŒ– ( ä½•ã‚‚æŠ¼ã—ã¦ã„ãªã„çŠ¶æ…‹ã¸ )
 	mMouseButtons[EMouseButtons::MOUSE_BUTTON_LEFT] = 0;
 	mMouseButtons[EMouseButtons::MOUSE_BUTTON_RIGHT] = 0;
 	mMouseButtons[EMouseButtons::MOUSE_BUTTON_MIDDLE] = 0;
 
 	mMouseButtonDoubleClicks = mMouseButtonsPrevious = mMouseButtons;
 
-	// ƒL[ƒ{[ƒh‚Ì‰Šú‰» ( ‰½‚à‰Ÿ‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Ö )
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®åˆæœŸåŒ– ( ä½•ã‚‚æŠ¼ã—ã¦ã„ãªã„çŠ¶æ…‹ã¸ )
 	mKeys.fill(0);
 	mKeysPrevious.fill(0);
 }
@@ -258,16 +258,16 @@ Input::Input(Input&& other)
 	, mKeysPrevious(other.mKeysPrevious)
 {}
 
-// ƒL[“ü—Í‚ğƒ}ƒbƒsƒ“ƒO‚·‚é
+// ã‚­ãƒ¼å…¥åŠ›ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹
 void Input::UpdateKeyDown(KeyDownEventData data)
 {
 	const auto& key = data.mouse.wparam;
 
-	// ƒ}ƒEƒX
+	// ãƒã‚¦ã‚¹
 	if (data.mouse.bMouse)
 	{
 		const EMouseButtons mouseBtn = static_cast<EMouseButtons>(key);
-		// ƒL[“ü—Í‚ğƒXƒe[ƒgƒ}ƒbƒv‚Éƒ}ƒbƒsƒ“ƒO‚·‚é ( “¯‰Ÿ‚µ‚Ìƒrƒbƒgƒ}ƒbƒvó‘Ô‚ğ•Ê‚ÌŒ`®‚É•ÏX‚·‚é )
+		// ã‚­ãƒ¼å…¥åŠ›ã‚’ã‚¹ãƒ†ãƒ¼ãƒˆãƒãƒƒãƒ—ã«ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ ( åŒæ™‚æŠ¼ã—ã®ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—çŠ¶æ…‹ã‚’åˆ¥ã®å½¢å¼ã«å¤‰æ›´ã™ã‚‹ )
 		if (mouseBtn & EMouseButtons::MOUSE_BUTTON_LEFT) mMouseButtons[EMouseButtons::MOUSE_BUTTON_LEFT] = true;
 		if (mouseBtn & EMouseButtons::MOUSE_BUTTON_RIGHT) mMouseButtons[EMouseButtons::MOUSE_BUTTON_RIGHT] = true;
 		if (mouseBtn & EMouseButtons::MOUSE_BUTTON_MIDDLE) mMouseButtons[EMouseButtons::MOUSE_BUTTON_MIDDLE] = true;
@@ -278,14 +278,14 @@ void Input::UpdateKeyDown(KeyDownEventData data)
 			if (mouseBtn & EMouseButtons::MOUSE_BUTTON_MIDDLE) mMouseButtonDoubleClicks[EMouseButtons::MOUSE_BUTTON_MIDDLE] = true;
 		}
 	}
-	// ƒL[ƒ{[ƒh
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	else
 	{
 		mKeys[key] = true;
 	}
 }
 
-// ƒL[‚ğ—£‚µ‚½‚Æ‚«‚Ìƒ}ƒbƒsƒ“ƒO
+// ã‚­ãƒ¼ã‚’é›¢ã—ãŸã¨ãã®ãƒãƒƒãƒ”ãƒ³ã‚°
 void Input::UpdateKeyUp(KeyCode key, bool bIsMouseKey)
 {
 	if (bIsMouseKey)
@@ -299,7 +299,7 @@ void Input::UpdateKeyUp(KeyCode key, bool bIsMouseKey)
 		mKeys[key] = false;
 }
 
-// ƒ}ƒEƒX‚ÌˆÊ’u‚ğ•Û‘¶‚·‚é ( Å‘å’l1, Å¬’l-1 )
+// ãƒã‚¦ã‚¹ã®ä½ç½®ã‚’ä¿å­˜ã™ã‚‹ ( æœ€å¤§å€¤1, æœ€å°å€¤-1 )
 void Input::UpdateMousePos(long x, long y, short scroll)
 {
 	mMouseDelta[0] = static_cast<float>((std::max)(-1l, (std::min)(x - mMousePosition[0], 1l)));
@@ -312,7 +312,7 @@ void Input::UpdateMousePos(long x, long y, short scroll)
 }
 
 
-// ˆÚ“®—Ê‚ğ•Û‘¶‚·‚é
+// ç§»å‹•é‡ã‚’ä¿å­˜ã™ã‚‹
 void Input::UpdateMousePos_Raw(int relativeX, int relativeY, short scroll)
 {
 	mMouseDelta[0] += static_cast<float>(relativeX);
@@ -324,13 +324,13 @@ void Input::UpdateMousePos_Raw(int relativeX, int relativeY, short scroll)
 	mMouseScroll = scroll;
 }
 
-// ƒtƒŒ[ƒ€ˆ—‚ªI‚í‚Á‚½Œã‚ÉŒÄ‚Î‚ê‚é
+// ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ãŒçµ‚ã‚ã£ãŸå¾Œã«å‘¼ã°ã‚Œã‚‹
 void Input::PostUpdate()
 {
 	mKeysPrevious = mKeys;
 	mMouseButtonsPrevious = mMouseButtons;
 
-	// ƒ}ƒEƒXƒf[ƒ^‚ğƒŠƒZƒbƒg
+	// ãƒã‚¦ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆ
 	mMouseDelta[0] = mMouseDelta[1] = 0;
 	mMouseScroll = 0;
 }
@@ -360,7 +360,7 @@ bool Input::IsKeyUp(const char* key) const
 
 bool Input::IsKeyTriggered(KeyCode key) const
 {
-	// ‘O‚ÌƒL[‚Æˆá‚¤ƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«ƒgƒŠƒK[‚Æ‚İ‚È‚·
+	// å‰ã®ã‚­ãƒ¼ã¨é•ã†ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ããƒˆãƒªã‚¬ãƒ¼ã¨ã¿ãªã™
 	return !mKeysPrevious[key] && mKeys[key] && !mbIgnoreInput;
 }
 
@@ -388,7 +388,7 @@ bool Input::IsMouseDoubleClick(EMouseButtons mbtn) const
 
 bool Input::IsMouseUp(EMouseButtons mbtn) const
 {
-	// ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª—£‚ê‚½‚çUp‰º‚Æ‚İ‚È‚·
+	// ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒé›¢ã‚ŒãŸã‚‰Upä¸‹ã¨ã¿ãªã™
 	const bool bButtonUp = !mMouseButtons.at(mbtn) && mMouseButtonsPrevious.at(mbtn);
 	return !mbIgnoreInput && bButtonUp;
 }

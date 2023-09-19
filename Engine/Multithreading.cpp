@@ -1,4 +1,4 @@
-#define NOMINMAX
+ï»¿#define NOMINMAX
 
 #include "Multithreading.h"
 
@@ -7,10 +7,10 @@
 
 #define RUN_THREADPOOL_UNIT_TEST 0
 
-// ˆ—Œn‚ÅƒTƒ|[ƒg‚³‚ê‚éƒXƒŒƒbƒh•Às”‚Ìæ“¾
+// å‡¦ç†ç³»ã§ã‚µãƒãƒ¼ãƒˆã•ã‚Œã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ä¸¦è¡Œæ•°ã®å–å¾—
 const size_t ThreadPool::sHardwareThreadCount = std::thread::hardware_concurrency();
 
-// ƒXƒŒƒbƒhƒeƒXƒgŠÖ” 16ƒXƒŒƒbƒh‚ğì¬‚µAƒ‰ƒ“ƒ_ƒ€‚È•¶š‚ğ¶¬A‰ÁZ‚·‚é
+// ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ†ã‚¹ãƒˆé–¢æ•° 16ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ä½œæˆã—ã€ãƒ©ãƒ³ãƒ€ãƒ ãªæ–‡å­—ã‚’ç”Ÿæˆã€åŠ ç®—ã™ã‚‹
 static void RUN_THREAD_POOL_UNIT_TEST()
 {
 	ThreadPool p;
@@ -71,9 +71,9 @@ static void RUN_THREAD_POOL_UNIT_TEST()
 
 	std::vector<unsigned long long> results;
 	unsigned long long total = 0;
-	std::for_each(std::begin(futures), std::end(futures), [&](decltype(futures[0]) f) // •Ï”‚ÌƒLƒƒƒvƒ`ƒƒ
+	std::for_each(std::begin(futures), std::end(futures), [&](decltype(futures[0]) f) // å¤‰æ•°ã®ã‚­ãƒ£ãƒ—ãƒãƒ£
 	{
-			results.push_back(f.get()); // get()‚Åfuture‚ÌŒ‹‰Ê‚ğæ“¾‚Å‚«‚é‚Ü‚Å‘Ò‹@
+			results.push_back(f.get()); // get()ã§futureã®çµæœã‚’å–å¾—ã§ãã‚‹ã¾ã§å¾…æ©Ÿ
 			total += results.back();
 	});
 
@@ -129,7 +129,7 @@ void ThreadPool::Execute()
 {
 	Task task;
 
-	// I—¹’Ê’m‚ª—ˆ‚é‚Ü‚Åƒ^ƒXƒN‚Ìˆ—‚ğs‚¤
+	// çµ‚äº†é€šçŸ¥ãŒæ¥ã‚‹ã¾ã§ã‚¿ã‚¹ã‚¯ã®å‡¦ç†ã‚’è¡Œã†
 	while (!mbStopWorkers)
 	{
 		mSignal.Wait([&] { return mbStopWorkers || !mTaskQueue.IsQueueEmpty(); });
@@ -137,13 +137,13 @@ void ThreadPool::Execute()
 		if (mbStopWorkers)
 			break;
 
-		// ƒ^ƒXƒN‚Ìƒ`ƒFƒbƒN‚Ææ‚èo‚µ
+		// ã‚¿ã‚¹ã‚¯ã®ãƒã‚§ãƒƒã‚¯ã¨å–ã‚Šå‡ºã—
 		if (!mTaskQueue.TryPopTask(task))
 		{
 			continue;
 		}
 
-		// ƒ^ƒXƒN‚ÌÀs
+		// ã‚¿ã‚¹ã‚¯ã®å®Ÿè¡Œ
 		task();
 		mTaskQueue.OnTaskComplete();
 	}

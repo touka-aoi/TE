@@ -1,4 +1,4 @@
-#include "Engine.h"
+ï»¿#include "Engine.h"
 
 
 #ifdef _DEBUG
@@ -34,7 +34,7 @@ void Engine::InitializeEngineSettings(const FStartupParameters& Params)
 {
 	const FEngineSettings& p = Params.EngineSettings;
 
-	// ƒfƒtƒHƒ‹ƒgİ’è
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š
 	FEngineSettings& s = mSettings;
 	s.gfx.bVsync = false;
 	s.gfx.bUseTripleBuffering = true;
@@ -63,7 +63,7 @@ void Engine::InitializeEngineSettings(const FStartupParameters& Params)
 
 void Engine::InitializeWindows(const FStartupParameters& Params)
 {
-	// İ’è‚ğƒRƒs[‚µ‚ÄAƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğì¬‚·‚é
+	// è¨­å®šã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã™ã‚‹
 	auto fnInitializeWindow = [&](const FWindowSettings& settings, HINSTANCE hInstance, std::unique_ptr<Window>& pWin, const std::string& WindowName)
 	{
 		FWindowDesc desc = {};
@@ -72,7 +72,7 @@ void Engine::InitializeWindows(const FStartupParameters& Params)
 		desc.hInst = hInstance;
 		desc.pWndOwner = this;
 		desc.pfnWndProc = WndProc;
-		desc.bFullscreen = settings.DisplayMode == EDisplayMode::EXCLUSIVE_FULLSCREEN; // ”r‘¼“Iƒtƒ‹ƒXƒNƒŠ[ƒ“İ’è
+		desc.bFullscreen = settings.DisplayMode == EDisplayMode::EXCLUSIVE_FULLSCREEN; // æ’ä»–çš„ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³è¨­å®š
 		desc.preferredDisplay = settings.PreferredDisplay;
 		desc.iShowCmd = Params.iCmdShow;
 		desc.windowName = WindowName;
@@ -93,7 +93,7 @@ void Engine::InitializeWindows(const FStartupParameters& Params)
 void Engine::InitializeInput()
 {
 #if ENABLE_RAW_INPUT
-	// ƒƒCƒ“ƒEƒBƒ“ƒhƒE‚ÌRawInput‚ğ“o˜^‚·‚é
+	// ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®RawInputã‚’ç™»éŒ²ã™ã‚‹
 	Input::InitRawInputDevices(mpWinMain->GetHWND());
 #endif
 
@@ -109,7 +109,7 @@ void Engine::RegisterWindowForInput(const std::unique_ptr<Window>& pWnd)
 		return;
 	}
 
-	// Window‚É‘Î‰‚·‚éInput‚ğì¬‚µ‚Ä“o˜^‚·‚é
+	// Windowã«å¯¾å¿œã™ã‚‹Inputã‚’ä½œæˆã—ã¦ç™»éŒ²ã™ã‚‹
 	mInputStates.emplace(pWnd->GetHWND(), std::move(Input()));
 }
 
@@ -118,12 +118,12 @@ void Engine::RegisterWindowForInput(const std::unique_ptr<Window>& pWnd)
 //	const int NUM_SWAPCHAIN_BACKBUFFERS = mSettings.gfx.bUseTripleBuffering ? 3 : 2;
 //	const size_t HWThreads = ThreadPool::sHardwareThreadCount;
 //	const size_t HWCores = HWThreads / 2;
-//	const size_t NumRuntimeWorkers = HWCores - 2; // 2ƒXƒŒƒbƒh‚ÍUpdate‚ÆRenderƒXƒŒƒbƒh‚ÉŠ„‚è“–‚Ä‚é
+//	const size_t NumRuntimeWorkers = HWCores - 2; // 2ã‚¹ãƒ¬ãƒƒãƒ‰ã¯Updateã¨Renderã‚¹ãƒ¬ãƒƒãƒ‰ã«å‰²ã‚Šå½“ã¦ã‚‹
 //	const size_t NumLoadingWorkers = HWThreads;
 //
-//	mbStopAllThreads.store(false); // ƒXƒŒƒbƒh‚ğÀs
+//	mbStopAllThreads.store(false); // ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’å®Ÿè¡Œ
 //
-//	// ƒAƒZƒbƒg‚Ìƒ[ƒh
+//	// ã‚¢ã‚»ãƒƒãƒˆã®ãƒ­ãƒ¼ãƒ‰
 //	// mWorkers_ModelLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Model");
 //	// mWorkers_TextureLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Texture");
 //
@@ -133,9 +133,9 @@ void Engine::RegisterWindowForInput(const std::unique_ptr<Window>& pWnd)
 
 void Engine::Destroy()
 {
-	// ƒXƒŒƒbƒeƒBƒ“ƒO‚ÌI—¹
+	// ã‚¹ãƒ¬ãƒƒãƒ†ã‚£ãƒ³ã‚°ã®çµ‚äº†
 	
-	// ƒŒƒ“ƒ_ƒ‰[‚Ì”jŠü
+	// ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã®ç ´æ£„
 }
 
 std::unique_ptr<Window>& Engine::GetWindow(HWND hwnd)

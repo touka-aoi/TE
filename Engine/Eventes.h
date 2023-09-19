@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include <Windows.h>
 #include <dxgi1_6.h>
 
-// ƒCƒxƒ“ƒgƒCƒ“ƒ^[ƒtƒF[ƒX‚ğŒ³‚ÉAŠeíƒCƒxƒ“ƒg‚ğì¬
+// ã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å…ƒã«ã€å„ç¨®ã‚¤ãƒ™ãƒ³ãƒˆã‚’ä½œæˆ
 
-// ƒCƒxƒ“ƒgƒ^ƒCƒvˆê——
+// ã‚¤ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ—ä¸€è¦§
 enum EEventType
 {
 	// Windows -> Engine window events
@@ -28,19 +28,19 @@ enum EEventType
 	HANDLE_WINDOW_TRANSITIONS_EVENT,
 	SHOW_WINDOW_EVENT,
 
-	NUM_EVENT_TYPES // ƒCƒxƒ“ƒgƒ^ƒCƒv‚Ì”
+	NUM_EVENT_TYPES // ã‚¤ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ—ã®æ•°
 };
 
-/* ƒCƒxƒ“ƒgƒCƒ“ƒ^[ƒtƒF[ƒX ƒCƒxƒ“ƒgƒ^ƒCƒv‚ÆƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğw’è‚·‚é */
+/* ã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ ã‚¤ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ—ã¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’æŒ‡å®šã™ã‚‹ */
 struct IEvent
 {
-	IEvent(EEventType Type, HWND hwnd_) :mType(Type), hwnd(hwnd_) {} // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	IEvent(EEventType Type, HWND hwnd_) :mType(Type), hwnd(hwnd_) {} // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
-	EEventType mType = EEventType::NUM_EVENT_TYPES;; // ƒCƒxƒ“ƒgƒ^ƒCƒv
-	HWND hwnd = 0; // ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	EEventType mType = EEventType::NUM_EVENT_TYPES;; // ã‚¤ãƒ™ãƒ³ãƒˆã‚¿ã‚¤ãƒ—
+	HWND hwnd = 0; // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 };
 
-// ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒƒCƒxƒ“ƒg‚Ìì¬
+// ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£ã‚¤ãƒ™ãƒ³ãƒˆã®ä½œæˆ
 struct SetMouseCaptureEvent : public IEvent
 {
 	SetMouseCaptureEvent(HWND hwnd_, bool bCaptureIn, bool bVisibleIn, bool bReleaseAtCapturedPositionIn)
@@ -54,13 +54,13 @@ struct SetMouseCaptureEvent : public IEvent
 	bool bVisible = false;
 };
 
-// ƒEƒBƒ“ƒhƒE‘JˆÚ
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦é·ç§»
 struct HandleWindowTransitionsEvent : public IEvent
 {
 	HandleWindowTransitionsEvent(HWND hwnd_) : IEvent(EEventType::HANDLE_WINDOW_TRANSITIONS_EVENT, hwnd_) {}
 };
 
-// ƒEƒBƒ“ƒhƒE•\¦
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 struct ShowWindowEvent : public IEvent
 {
 	ShowWindowEvent(HWND hwnd_) : IEvent(EEventType::SHOW_WINDOW_EVENT, hwnd_) {}
@@ -71,7 +71,7 @@ struct ShowWindowEvent : public IEvent
 // WINDOW EVENTS
 //
 
-// ƒEƒBƒ“ƒhƒEƒŠƒTƒCƒY
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒªã‚µã‚¤ã‚º
 struct WindowResizeEvent : public IEvent
 {
 	WindowResizeEvent(int w, int h, HWND hwnd_) : IEvent(EEventType::WINDOW_RESIZE_EVENT, hwnd_), width(w), height(h) {}
@@ -80,7 +80,7 @@ struct WindowResizeEvent : public IEvent
 	int height = 0;
 };
 
-// ƒEƒBƒ“ƒhƒEƒNƒ[ƒY
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ­ãƒ¼ã‚º
 struct WindowCloseEvent : public IEvent
 {
 	WindowCloseEvent(HWND hwnd_) : IEvent(EEventType::WINDOW_CLOSE_EVENT, hwnd_) {}
@@ -88,27 +88,27 @@ struct WindowCloseEvent : public IEvent
 	// mutable Signal Signal_WindowDependentResourcesDestroyed;
 };
 
-//ƒtƒ‹ƒXƒNƒŠ[ƒ“Ø‚è‘Ö‚¦
+//ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 struct ToggleFullscreenEvent : public IEvent
 {
 	ToggleFullscreenEvent(HWND hwnd_) : IEvent(EEventType::TOGGLE_FULLSCREEN_EVENT, hwnd_) {}
 };
 
-//ƒtƒ‹ƒXƒNƒŠ[ƒ“İ’è
+//ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³è¨­å®š
 struct SetFullscreenEvent : public IEvent
 {
 	SetFullscreenEvent(HWND hwnd_, bool bFullscreen) : IEvent(EEventType::SET_FULLSCREEN_EVENT, hwnd_), bToggleValue(bFullscreen) {}
 	bool bToggleValue = false;
 };
 
-//VSyncİ’è
+//VSyncè¨­å®š
 struct SetVSyncEvent : public IEvent
 {
 	SetVSyncEvent(HWND hwnd_, bool bVSync) : IEvent(EEventType::SET_VSYNC_EVENT, hwnd_), bToggleValue(bVSync) {}
 	bool bToggleValue = false;
 };
 
-//ƒXƒƒbƒvƒ`ƒF[ƒ“ƒtƒH[ƒ}ƒbƒgİ’è
+//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆè¨­å®š
 struct SetSwapchainFormatEvent : public IEvent
 {
 	SetSwapchainFormatEvent(HWND hwnd_, DXGI_FORMAT format_) : IEvent(EEventType::SET_SWAPCHAIN_FORMAT_EVENT, hwnd_), format(format_) {}
@@ -119,7 +119,7 @@ struct SetSwapchainFormatEvent : public IEvent
 // INPUT EVENTS
 //
 
-// ƒL[“ü—Í‚ğ•Û‘¶‚·‚é\‘¢‘Ì
+// ã‚­ãƒ¼å…¥åŠ›ã‚’ä¿å­˜ã™ã‚‹æ§‹é€ ä½“
 union KeyDownEventData
 {
 	struct Keyboard
@@ -139,7 +139,7 @@ union KeyDownEventData
 	KeyDownEventData(WPARAM wp, bool bIsMouse, bool cl) : mouse(wp, bIsMouse, cl) {}
 };
 
-// ƒL[“ü—ÍƒCƒxƒ“ƒg
+// ã‚­ãƒ¼å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆ
 struct KeyDownEvent : public IEvent
 {
 	KeyDownEventData data;
@@ -149,7 +149,7 @@ struct KeyDownEvent : public IEvent
 	{}
 };
 
-// ƒL[—£‚µƒCƒxƒ“ƒg
+// ã‚­ãƒ¼é›¢ã—ã‚¤ãƒ™ãƒ³ãƒˆ
 struct KeyUpEvent : public IEvent
 {
 	KeyUpEvent(HWND hwnd_, WPARAM wparam_, bool bIsMouse) : IEvent(EEventType::KEY_UP_EVENT, hwnd_), wparam(wparam_), bMouseEvent(bIsMouse) {}
@@ -158,7 +158,7 @@ struct KeyUpEvent : public IEvent
 	WPARAM wparam = 0;
 };
 
-// ƒ}ƒEƒXˆÚ“®ƒCƒxƒ“ƒg
+// ãƒã‚¦ã‚¹ç§»å‹•ã‚¤ãƒ™ãƒ³ãƒˆ
 struct MouseMoveEvent : public IEvent
 {
 	MouseMoveEvent(HWND hwnd_, long x_, long y_) : IEvent(EEventType::MOUSE_MOVE_EVENT, hwnd_), x(x_), y(y_) {}
@@ -166,14 +166,14 @@ struct MouseMoveEvent : public IEvent
 	long y = 0;
 };
 
-// ƒ}ƒEƒXƒzƒC[ƒ‹ƒCƒxƒ“ƒg
+// ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¤ãƒ™ãƒ³ãƒˆ
 struct MouseScrollEvent : public IEvent
 {
 	MouseScrollEvent(HWND hwnd_, short scr) : IEvent(EEventType::MOUSE_SCROLL_EVENT, hwnd_), scroll(scr) {}
 	short scroll = 0;
 };
 
-// ƒ}ƒEƒX“ü—Í‚ğ•Û‘¶‚·‚é\‘¢‘Ì
+// ãƒã‚¦ã‚¹å…¥åŠ›ã‚’ä¿å­˜ã™ã‚‹æ§‹é€ ä½“
 struct MouseInputEventData
 {
 	int relativeX = 0;
@@ -186,7 +186,7 @@ struct MouseInputEventData
 	float scrollDelta = 0.0f;
 };
 
-// ƒ}ƒEƒX“ü—ÍƒCƒxƒ“ƒg
+// ãƒã‚¦ã‚¹å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆ
 struct MouseInputEvent : public IEvent
 {
 	MouseInputEvent(const MouseInputEventData& d, HWND hwnd_) : IEvent(EEventType::MOUSE_INPUT_EVENT, hwnd_), data(d) {}
