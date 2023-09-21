@@ -96,12 +96,15 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>imgui\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EngineUI.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Engine_Simulation.cpp">
-      <Filter>PostPone</Filter>
-    </None>
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +167,18 @@
     </ClCompile>
     <ClCompile Include="Engine_WindowEvents.cpp">
       <Filter>wellknown\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineUI.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_Update.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TImer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_Simulation.cpp">
+      <Filter>wellknown</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

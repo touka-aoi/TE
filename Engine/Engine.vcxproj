@@ -154,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include="Engine_Simulation.cpp" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +162,7 @@
     <ClCompile Include="Engine_EventHandlers.cpp" />
     <ClCompile Include="Engine_Main.cpp" />
     <ClCompile Include="Engine_Render.cpp" />
+    <ClCompile Include="Engine_Simulation.cpp" />
     <ClCompile Include="Engine_Update.cpp" />
     <ClCompile Include="Engine_WindowEvents.cpp" />
     <ClCompile Include="Events.cpp" />

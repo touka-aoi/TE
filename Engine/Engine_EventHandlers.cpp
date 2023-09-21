@@ -203,21 +203,21 @@ void Engine::UpdateThread_HandleEvents()
         {
             std::shared_ptr<KeyDownEvent> p = std::static_pointer_cast<KeyDownEvent>(pEvent);
             mInputStates.at(p->hwnd).UpdateKeyDown(p->data); // ウィンドウのハンドルのInputを取得し、キー入力を保存する
-            UpdateImGui_KeyDown(p->data); // ImGuiにキー入力を保存する
+            // UpdateImGui_KeyDown(p->data); // ImGuiにキー入力を保存する
         } break;
 
         case KEY_UP_EVENT:
         {
             std::shared_ptr<KeyUpEvent> p = std::static_pointer_cast<KeyUpEvent>(pEvent);
             mInputStates.at(p->hwnd).UpdateKeyUp(p->wparam, p->bMouseEvent); // ウィンドウのハンドルのInputを取得し、キー入力を保存する
-            UpdateImGui_KeyUp(p->wparam, p->bMouseEvent); // ImGuiにキー入力を保存する
+            // UpdateImGui_KeyUp(p->wparam, p->bMouseEvent); // ImGuiにキー入力を保存する
         } break;
 
         case MOUSE_MOVE_EVENT:
         {
             std::shared_ptr<MouseMoveEvent> p = std::static_pointer_cast<MouseMoveEvent>(pEvent);
             mInputStates.at(p->hwnd).UpdateMousePos(p->x, p->y, 0); // ウィンドウのハンドルのInputを取得し、マウス入力を保存する
-            UpdateImGui_MousePosition1(p->x, p->y);
+            // UpdateImGui_MousePosition1(p->x, p->y);
         } break;
 
         case MOUSE_SCROLL_EVENT: // ScrollはImGUIに返さない
@@ -252,9 +252,9 @@ void Engine::UpdateThread_HandleEvents()
                 , static_cast<short>(p->data.scrollDelta)
             );
 
-            ImGuiIO& io = ImGui::GetIO();
-            UpdateImGui_MousePosition(pEvent->hwnd);
-            io.MouseWheel += p->data.scrollDelta;
+            // ImGuiIO& io = ImGui::GetIO();
+            // UpdateImGui_MousePosition(pEvent->hwnd);
+            // io.MouseWheel += p->data.scrollDelta;
         } break;
         // case WINDOW_RESIZE_EVENT: UpdateThread_HandleWindowResizeEvent(pEvent); break;
         }

@@ -176,7 +176,7 @@ private:
     void                            RegisterWindowForInput(const std::unique_ptr<Window>& pWnd);
     // void                            UnregisterWindowForInput(const std::unique_ptr<Window>& pWnd);
 
-    // uint64                          mNumSimulationTicks;
+    uint64                          mNumSimulationTicks;
 
     //
     // Events

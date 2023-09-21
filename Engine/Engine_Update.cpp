@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include <dwmapi.h>
+#pragma comment(lib, "Dwmapi.lib")
 
 
 void Engine::UpdateThread_Main()

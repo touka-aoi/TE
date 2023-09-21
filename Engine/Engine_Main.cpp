@@ -28,6 +28,8 @@ bool Engine::Initialize(const FStartupParameters& Params)
 	InitializeWindows(Params);
 	InitializeInput();
 
+    InitializeEngineThreads();
+
     SetEffectiveFrameRateLimit();
 
 	return true;

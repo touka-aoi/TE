@@ -1,9 +1,11 @@
-﻿#include <Windows.h>	
+#include <Windows.h>	
 
 #include "WIndow.h"
 #include "Platform.h"
 
 #include "Engine.h"
+
+#include <iostream>
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdShow)
 {
@@ -13,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdSh
 	strcpy_s(StartupParameters.EngineSettings.WndMain.Title, sizeof(StartupParameters.EngineSettings.WndMain.Title), "Main WIndow");
 	strcpy_s(StartupParameters.EngineSettings.WndDebug.Title, sizeof(StartupParameters.EngineSettings.WndDebug.Title), "Debug WIndow");
 
-	// セットアップのパラメータの設定 // 
+	// セットアップのパラメータの設定 //
 
 	{
 		// エンジンの起動
