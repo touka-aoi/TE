@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <string>
 
@@ -30,7 +30,7 @@ struct FGraphicsSettings
 	EReflections Reflections{ EReflections::REFLECTIONS_OFF };
 
 	float RenderScale{ 1.0f }; // What is this ?
-	int   MaxFrameRate{ -1 }; // -1: Auto (RefreshRate x 1.15) | 0: Unlimited | <int>: specified value
+	int   MaxFrameRate{ -1 }; // -1: Auto (RefreshRate x 1.15) | 0: Unlimited | <int>: specified value ( Hz )
 	int   EnvironmentMapResolution{ 256 }; // What is this ?
 };
 

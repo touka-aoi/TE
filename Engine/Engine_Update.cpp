@@ -1,5 +1,8 @@
 #include "Engine.h"
 
+#include <dwmapi.h>
+
+
 void Engine::UpdateThread_Main()
 {
     Log::Info("UpdateThread Created");
@@ -123,4 +126,64 @@ bool Engine::IsWindowRegistered(HWND hwnd) const
 {
     auto it = mWinNameLookup.find(hwnd);
     return it != mWinNameLookup.end();
+}
+
+/**
+* @fn
+* フレームレートを一定にする関数
+*/
+float Engine::FramePacing(float dt)
+{
+    float SleepTime = 0.0f;
+    // フレームレートの制限が設定されている場合
+    if (mEffectiveFrameRateLimit_ms != 0.0f)
+    {
+        // TODO : Windows PIX
+
+        // 消費すべき時間の算出
+        const float TimeBudgetLeft_ms = mEffectiveFrameRateLimit_ms - dt;
+        // 待機時間がある場合
+        if (TimeBudgetLeft_ms)
+        {
+            float Acc = TimeBudgetLeft_ms / 1000;
+            Timer SleepTimer;
+            SleepTimer.Start();
+            while (Acc > 0.0f)
+            {
+                Sleep(0);
+                Acc -= SleepTimer.Tick();
+            }
+        }
+    }
+    return SleepTime;
+}
+
+void Engine::SetEffectiveFrameRateLimit()
+{
+    // Auto
+    if (mSettings.gfx.MaxFrameRate == -1)
+    {
+        // モニターのリフレッシュレートを取得
+        DWM_TIMING_INFO dti = {};
+        dti.cbSize = sizeof(DWM_TIMING_INFO);
+        HRESULT hr = DwmGetCompositionTimingInfo(NULL, &dti);
+        assert(dti.rateRefresh.uiDenominator != 0 && dti.rateRefresh.uiNumerator != 0);
+        const float DisplayRefreshRate = static_cast<float>(dti.rateRefresh.uiNumerator) / dti.rateRefresh.uiDenominator;
+        Log::Info("Getting Monitor Refresh Rate: %.1fHz", DisplayRefreshRate);
+        // 周期に余裕を持たせHzをmsに変換
+        mEffectiveFrameRateLimit_ms = 1000.0f / (DisplayRefreshRate * 1.15f);
+    }
+    // Unlimited
+    else if ( mSettings.gfx.MaxFrameRate == 0)
+    {
+        mEffectiveFrameRateLimit_ms = 0.0f;
+    }
+    // Custom
+    else
+    {
+        mEffectiveFrameRateLimit_ms = 1000.0f / mSettings.gfx.MaxFrameRate;
+    }
+    const bool bUnlimitedFrameRate = mEffectiveFrameRateLimit_ms == 0.0f;
+    if (bUnlimitedFrameRate) Log::Info("FrameRateLimit : Unlimited");
+    else                     Log::Info("FrameRateLimit : %.2fms | %d FPS", mEffectiveFrameRateLimit_ms, static_cast<int>(1000.0f / mEffectiveFrameRateLimit_ms));
 }

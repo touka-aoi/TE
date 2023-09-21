@@ -28,8 +28,8 @@ void Engine::SimulationThread_Main()
 
 		// Logging
 
-		SimulationThread_Exit();
 	}
+	SimulationThread_Exit();
 }
 
 void Engine::SimulationThread_Initialize()

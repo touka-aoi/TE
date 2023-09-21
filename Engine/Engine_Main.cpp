@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include <cassert>
 
 #ifdef _DEBUG
 constexpr const char* BUILD_CONFIG = "-Debug";
@@ -26,7 +27,9 @@ bool Engine::Initialize(const FStartupParameters& Params)
 
 	InitializeWindows(Params);
 	InitializeInput();
-	
+
+    SetEffectiveFrameRateLimit();
+
 	return true;
 }
 
@@ -113,23 +116,23 @@ void Engine::RegisterWindowForInput(const std::unique_ptr<Window>& pWnd)
 	mInputStates.emplace(pWnd->GetHWND(), std::move(Input()));
 }
 
-//void Engine::InitializeEngineThreads()
-//{
-//	const int NUM_SWAPCHAIN_BACKBUFFERS = mSettings.gfx.bUseTripleBuffering ? 3 : 2;
-//	const size_t HWThreads = ThreadPool::sHardwareThreadCount;
-//	const size_t HWCores = HWThreads / 2;
-//	const size_t NumRuntimeWorkers = HWCores - 2; // 2スレッドはUpdateとRenderスレッドに割り当てる
-//	const size_t NumLoadingWorkers = HWThreads;
-//
-//	mbStopAllThreads.store(false); // スレッドを実行
-//
-//	// アセットのロード
-//	// mWorkers_ModelLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Model");
-//	// mWorkers_TextureLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Texture");
-//
-//	mSimulationThread = std::thread(&Engine::SimulationThread_Main, this);
-//	mWorkers_Simulation.Initialize(NumRuntimeWorkers, "SimulationWorkers");
-//}
+void Engine::InitializeEngineThreads()
+{
+	const int NUM_SWAPCHAIN_BACKBUFFERS = mSettings.gfx.bUseTripleBuffering ? 3 : 2;
+	const size_t HWThreads = ThreadPool::sHardwareThreadCount;
+	const size_t HWCores = HWThreads / 2;
+	const size_t NumRuntimeWorkers = HWCores - 2; // 2スレッドはUpdateとRenderスレッドに割り当てる
+	const size_t NumLoadingWorkers = HWThreads;
+
+	mbStopAllThreads.store(false); // スレッドを実行
+
+	// アセットのロード
+	// mWorkers_ModelLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Model");
+	// mWorkers_TextureLoading.Initialize(NumLoadtimeWorkers, "LoadWorkers_Texture");
+
+	mSimulationThread = std::thread(&Engine::SimulationThread_Main, this);
+	mWorkers_Simulation.Initialize(NumRuntimeWorkers, "SimulationWorkers");
+}
 
 void Engine::Destroy()
 {

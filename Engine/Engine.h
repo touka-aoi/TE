@@ -64,10 +64,10 @@ public:
     // ---------------------------------------------------------
     // Simulation Thread
     // ---------------------------------------------------------
-    /*void SimulationThread_Main();
+    void SimulationThread_Main();
     void SimulationThread_Initialize();
     void SimulationThread_Exit();
-    void SimulationThread_Tick(const float dt);*/
+    void SimulationThread_Tick(const float dt);
 
     // ---------------------------------------------------------
     // Render Thread
@@ -137,9 +137,10 @@ private:
     EAppState                       mAppState;
 
     // threads
-    /*std::thread                     mSimulationThread;
+    std::thread                     mSimulationThread;
     ThreadPool                      mWorkers_Simulation;
 
+    /*
     ThreadPool                      mWorkers_ModelLoading;
     ThreadPool                      mWorkers_TextureLoading;*/
 
@@ -155,6 +156,7 @@ private:
     // timer / profiler
     Timer                           mTimer;
      // Timer                           mTimerRender;
+    float                           mEffectiveFrameRateLimit_ms;
 
     using WindowNameLookup_t = std::unordered_map<HWND, std::string>;
 
@@ -169,7 +171,7 @@ private:
     // void                            InitializeEnvironmentMaps();
     // void                            InitializeScenes();
      void                            InitializeUI(HWND hwnd);
-    // void                            InitializeEngineThreads();
+     void                            InitializeEngineThreads();
 
     void                            RegisterWindowForInput(const std::unique_ptr<Window>& pWnd);
     // void                            UnregisterWindowForInput(const std::unique_ptr<Window>& pWnd);
@@ -195,6 +197,8 @@ private:
     const FWindowSettings& GetWindowSettings(HWND hwnd) const;
     FWindowSettings& GetWindowSettings(HWND hwnd);
 
+    float                           FramePacing(const float dt);
+    void                            SetEffectiveFrameRateLimit();
 };
 
 struct FWindowDesc
