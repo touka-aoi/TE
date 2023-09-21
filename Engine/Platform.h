@@ -1,4 +1,6 @@
-﻿#pragma once
+#pragma once
+
+#include "Log.h"
 
 #include <Windows.h>
 #include "Settings.h"
@@ -11,7 +13,7 @@ struct FStartupParameters
 {
 	HINSTANCE                 hExeInstance;
 	int                       iCmdShow;
-	// Log::LogInitializeParams  LogInitParams;
+	Log::LogInitializeParams  LogInitParams;
 
 	FEngineSettings EngineSettings;
 	uint8 bOverrideGFXSetting_RenderScale : 1;

@@ -15,6 +15,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, PSTR pScmdl, int iCmdSh
 	strcpy_s(StartupParameters.EngineSettings.WndMain.Title, sizeof(StartupParameters.EngineSettings.WndMain.Title), "Main WIndow");
 	strcpy_s(StartupParameters.EngineSettings.WndDebug.Title, sizeof(StartupParameters.EngineSettings.WndDebug.Title), "Debug WIndow");
 
+
+    // ログの初期化
+    StartupParameters.LogInitParams.bLogConsole = true;
+    Log::Initialize(StartupParameters.LogInitParams);
+
 	// セットアップのパラメータの設定 //
 
 	{
