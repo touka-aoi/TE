@@ -173,6 +173,8 @@ private:
      void                            InitializeUI(HWND hwnd);
      void                            InitializeEngineThreads();
 
+     void                            ExitThreads();
+
     void                            RegisterWindowForInput(const std::unique_ptr<Window>& pWnd);
     // void                            UnregisterWindowForInput(const std::unique_ptr<Window>& pWnd);
 

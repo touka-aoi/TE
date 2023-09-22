@@ -25,6 +25,14 @@ void Engine::SimulationThread_Main()
         float FrameLimiterTimeSpent = FramePacing(dt);
 
         // Logging
+        constexpr int LOGGING_PERIOD = 4; // seconds
+        static float LAST_LOG_TIME = mTimer.TotalTime();
+        const float TotalTime = mTimer.TotalTime();
+        if (TotalTime - LAST_LOG_TIME > LOGGING_PERIOD)
+        {
+            Log::Info("SimulationThread_Tick() : dt=%.2f ms (Sleep=%.2f)", dt * 1000.0f, FrameLimiterTimeSpent);
+            LAST_LOG_TIME = TotalTime;
+        }
 
     }
     SimulationThread_Exit();

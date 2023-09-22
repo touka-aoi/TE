@@ -298,7 +298,7 @@ void Engine::OnMouseScroll(HWND hwnd, short scroll)
 
 void Engine::OnMouseMove(HWND hwnd, long x, long y)
 {
-	//Log::Info("MouseMove : (%ld, %ld)", x, y);
+	Log::Info("MouseMove : (%ld, %ld)", x, y);
 	mEventQueue_WinToE_Update.AddItem(std::make_unique<MouseMoveEvent>(hwnd, x, y));
 }
 

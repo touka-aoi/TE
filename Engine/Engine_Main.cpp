@@ -136,10 +136,17 @@ void Engine::InitializeEngineThreads()
 	mWorkers_Simulation.Initialize(NumRuntimeWorkers, "SimulationWorkers");
 }
 
+void Engine::ExitThreads()
+{
+    mSimulationThread.join();
+    mWorkers_Simulation.Destroy();
+}
+
 void Engine::Destroy()
 {
 	// スレッティングの終了
-	
+    ExitThreads();
+
 	// レンダラーの破棄
 }
 
