@@ -132,9 +132,6 @@
     <ClCompile Include="Log.cpp">
       <Filter>wellknown\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>wellknown\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="Multithreading.cpp">
       <Filter>wellknown\Core</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine_Simulation.cpp">
+      <Filter>wellknown</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
       <Filter>wellknown</Filter>
     </ClCompile>
   </ItemGroup>

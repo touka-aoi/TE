@@ -27,7 +27,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		Log::Warning("WndProc::pWindow=nullptr");
 #endif
 		// デフォルトのウィンドウプロシージャに処理を任せる
-		return ::DefWindowProc(hwnd, uMsg, wParam, lParam);
+		return ::DefWindowProcA(hwnd, uMsg, wParam, lParam);
 	}
 	
 	// HANDLE EVENT
@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #endif
 	}
 
-	return ::DefWindowProc(hwnd, uMsg, wParam, lParam);
+	return ::DefWindowProcA(hwnd, uMsg, wParam, lParam);
 }
 
 // =================================================================================================

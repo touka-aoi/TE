@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <string>
 #include <Windows.h>
@@ -10,7 +10,7 @@ class SwapChain;
 struct WindowClass final
 {
 public:
-	WindowClass(const std::string& name, HINSTANCE hInst, ::WNDPROC procedure = ::DefWindowProc); 
+	WindowClass(const std::string& name, HINSTANCE hInst, ::WNDPROC procedure = ::DefWindowProcA); 
 	~WindowClass();
 
 	const std::string& GetName() const;
