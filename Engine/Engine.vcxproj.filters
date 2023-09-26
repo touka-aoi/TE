@@ -42,17 +42,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandQueue.h">
-      <Filter>PostPone</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>PostPone</Filter>
-    </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="SwapChain.h">
-      <Filter>PostPone</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>wellknown\Engine</Filter>
@@ -102,21 +93,36 @@
     <ClInclude Include="Timer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandQueue.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceHeaps.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemInfo.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceViews.h">
+      <Filter>Processing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine_Render.cpp">
-      <Filter>PostPone</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandQueue.cpp">
-      <Filter>PostPone</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>PostPone</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Processing</Filter>
     </ClCompile>
@@ -179,6 +185,24 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>wellknown</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine_Render.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandQueue.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceHeaps.cpp">
+      <Filter>Processing</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceViews.cpp">
+      <Filter>Processing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

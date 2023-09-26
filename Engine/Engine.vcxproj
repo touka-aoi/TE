@@ -132,6 +132,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommandQueue.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Device.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineUI.h" />
     <ClInclude Include="Eventes.h" />
@@ -145,8 +147,11 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ResourceHeaps.h" />
+    <ClInclude Include="ResourceViews.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SwapChain.h" />
+    <ClInclude Include="SystemInfo.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="utils.h" />
@@ -158,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandQueue.cpp" />
+    <ClCompile Include="Device.cpp" />
     <ClCompile Include="EngineUI.cpp" />
     <ClCompile Include="Engine_EventHandlers.cpp" />
     <ClCompile Include="Engine_Main.cpp" />
@@ -178,6 +184,8 @@
     <ClCompile Include="Multithreading.h" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ResourceHeaps.cpp" />
+    <ClCompile Include="ResourceViews.cpp" />
     <ClCompile Include="TImer.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="Window.cpp" />

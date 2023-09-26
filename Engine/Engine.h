@@ -72,10 +72,10 @@ public:
     // ---------------------------------------------------------
     // Render Thread
     // ---------------------------------------------------------
-    /*void RenderThread_Main();
+    void RenderThread_Main();
     void RenderThread_Tick();
     void RenderThread_Inititalize();
-    void RenderThread_Exit();*/
+    void RenderThread_Exit();
 
     // ---------------------------------------------------------
     // Update Thread
@@ -123,7 +123,7 @@ private:
     POINT                           mMouseCapturePosition;  // マウスキャプチャ位置
 
     // Renderer
-    // Renderer                      mRenderer;
+    Renderer                      mRenderer;
 
     // input
     std::unordered_map<HWND, Input> mInputStates; // ウィンドウごとのInputクラスを保持する
@@ -155,7 +155,7 @@ private:
 
     // timer / profiler
     Timer                           mTimer;
-     // Timer                           mTimerRender;
+    Timer                           mTimerRender;
     float                           mEffectiveFrameRateLimit_ms;
 
     using WindowNameLookup_t = std::unordered_map<HWND, std::string>;
