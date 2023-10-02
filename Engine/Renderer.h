@@ -6,6 +6,7 @@
 #include "Platform.h"
 #include "Settings.h"
 #include "SystemInfo.h"
+#include "ResourceHeaps.h"
 #include "CommandQueue.h"
 
 #include <vector>
@@ -41,6 +42,14 @@ private:
     CommandQueue mGFXQueue;
     CommandQueue mComputeQueue;
     CommandQueue mCopyQueue;
+
+    // CPU-visible heaps ----------------------------------------
+    UploadHeap                     mHeapUpload;
+    StaticResourceViewHeap         mHeapRTV;
+    // GPU-visible heaps ----------------------------------------
+    StaticResourceViewHeap         mHeapCBV_SRV_UAV;
+    StaticBufferHeap               mStaticHeap_VertexBuffer;
+    StaticBufferHeap               mStaticHeap_IndexBuffer;
 
 public:
     static std::vector< SystemInfo::FGPUInfo > EnumerateDX12Adapters(bool bEnableDebugLayer, bool bEnumerateSoftwareAdapters = false, IDXGIFactory6* pFactory = nullptr);

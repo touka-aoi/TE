@@ -37,6 +37,16 @@ void Renderer::Initialize(const FGraphicsSettings& settings)
     InitializeHeaps();
 
     // スレッドの初期化
+    mbExitUploadThread.store(false);
+    mbDefaultResourcesLoaded.store(false);
+    mTextureUploadThread = std::thread(&VQRenderer::TextureUploadThread_Main, this);
+
+    const size_t HWThreads = ThreadPool::sHardwareThreadCount;
+    const size_t HWCores = HWThreads >> 1;
+    mWorkers_ShaderLoad.Initialize(HWThreads, "ShaderLoadWorkers");
+    mWorkers_PSOLoad.Initialize(HWThreads, "PSOLoadWorkers");
+
+    Log::Info("[Renderer] Initialized.");
 }
 
 void Renderer::InitializeHeaps()
@@ -44,7 +54,76 @@ void Renderer::InitializeHeaps()
     ID3D12Device* pDevice = mDevice.GetDevicePtr();
 
     const uint32 UPLOAD_HEAP_SIZE = (512 + 256) * MEGABYTE;
+    mHeapUpload.Create(pDevice, UPLOAD_HEAP_SIZE, this->mGFXQueue.pQueue);
 
+    constexpr uint32 NumDescsCBV = 100;
+    constexpr uint32 NumDescsSRV = 8192;
+    constexpr uint32 NumDescsUAV = 100;
+    constexpr bool   bCPUVisible = false;
+    mHeapCBV_SRV_UAV.Create(pDevice, "HeapCBV_SRV_UAV", D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, NumDescsCBV + NumDescsSRV + NumDescsUAV, bCPUVisible);
+
+    constexpr uint32 NumDescsRTV = 1000;
+    mHeapRTV.Create(pDevice, "HeapRTV", D3D12_DESCRIPTOR_HEAP_TYPE_RTV, NumDescsRTV);
+
+    constexpr uint32 STATIC_GEOMETRY_MEMORY_SIZE = 256 * MEGABYTE;
+    constexpr bool USE_GPU_MEMORY = true;
+    mStaticHeap_VertexBuffer.Create(pDevice, EBufferType::VERTEX_BUFFER, STATIC_GEOMETRY_MEMORY_SIZE, USE_GPU_MEMORY, "mStaticVertexBufferPool");
+    mStaticHeap_IndexBuffer.Create(pDevice, EBufferType::INDEX_BUFFER, STATIC_GEOMETRY_MEMORY_SIZE, USE_GPU_MEMORY, "mStaticIndexBufferPool");
+}
+
+void VQRenderer::Destroy()
+{
+    Log::Info("VQRenderer::Exit()");
+    mWorkers_PSOLoad.Destroy();
+    mWorkers_ShaderLoad.Destroy();
+
+    mbExitUploadThread.store(true);
+    mSignal_UploadThreadWorkReady.NotifyAll();
+
+    // clean up memory
+    mHeapUpload.Destroy();
+    mHeapCBV_SRV_UAV.Destroy();
+    mHeapDSV.Destroy();
+    mHeapRTV.Destroy();
+    mStaticHeap_VertexBuffer.Destroy();
+    mStaticHeap_IndexBuffer.Destroy();
+
+    // clean up textures
+    for (std::unordered_map<TextureID, Texture>::iterator it = mTextures.begin(); it != mTextures.end(); ++it)
+    {
+        it->second.Destroy();
+    }
+    mTextures.clear();
+    mpAllocator->Release();
+
+    // clean up root signatures and PSOs
+    for (auto& pr : mRootSignatureLookup)
+    {
+        if (pr.second) pr.second->Release();
+    }
+    for (std::pair<PSO_ID, ID3D12PipelineState*> pPSO : mPSOs)
+    {
+        if (pPSO.second)
+            pPSO.second->Release();
+    }
+    mPSOs.clear();
+
+    // clean up contexts
+    size_t NumBackBuffers = 0;
+    for (std::unordered_map<HWND, FWindowRenderContext>::iterator it = mRenderContextLookup.begin(); it != mRenderContextLookup.end(); ++it)
+    {
+        auto& ctx = it->second;
+        ctx.CleanupContext();
+    }
+
+    // cleanp up device
+    mGFXQueue.Destroy();
+    mComputeQueue.Destroy();
+    mCopyQueue.Destroy();
+    mDevice.Destroy();
+
+    // clean up remaining threads
+    mTextureUploadThread.join();
 }
 
 std::vector<FGPUInfo> Renderer::EnumerateDX12Adapters(bool bEnableDebugLayer, bool bEnumerateSoftwareAdapters /*= false*/, IDXGIFactory6* pFactory /*= nullptr*/)
